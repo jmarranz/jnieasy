@@ -1,0 +1,119 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Listeners</title><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><link rel="start" href="index.html" title=""><link rel="up" href="index.html" title=""><link rel="prev" href="ar01s12.html" title="Native Transactions"><link rel="next" href="ar01s14.html" title="Multithreading support"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Listeners</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s12.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s14.html">Next</a></td></tr></table><hr></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id531031"></a>Listeners</h2></div></div></div><p>JNIEasy provides an event notification system monitoring the lifecycle of native instances.</p><p>The user can register listeners to receive these events; a listener is an instance of a class implementing a listener interface and registered, if necessary, as listener in JNIEasy.</p><p>There are two types of listener interfaces: </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id531052"></a>Interfaces to be implemented by user defined native capable classes</h3></div></div></div>Interfaces to be implemented by user defined native capable classes<p>The native instance changing its native state receives the matched event according the interface(s) implemented; the instance works itself as a listener and does not need to register. The interface names have the following pattern: EventTypeCallback.</p><p></p><div class="informaltable"><table border="1"><colgroup><col><col><col><col></colgroup><tbody><tr><td>
+<p>Interface</p>
+</td><td>
+<p>Related NativeManager method</p>
+</td><td>
+<p>Methods</p>
+</td><td>
+<p>Notes</p>
+</td></tr><tr><td>
+<p>AttachCallback</p>
+</td><td>
+<p>attach(Object,NativeAddress,long)</p>
+</td><td>
+<p>Pre</p>
+<p>Post</p>
+</td><td>
+<p>Is called pre and post the attachment. The &#8220;pre&#8221; method is not enhanced.</p>
+</td></tr><tr><td>
+<p>AttachCopyCallback</p>
+</td><td>
+<p>attachCopy(Object,Object)</p>
+</td><td>
+<p>Pre</p>
+<p>Post</p>
+</td><td>
+<p>Is called pre and post copy to native instance a non-native instance (copy)</p>
+</td></tr><tr><td>
+<p>DetachCallback</p>
+</td><td>
+<p>detach(Object,int,boolean)</p>
+</td><td>
+<p>Pre</p>
+<p>Post</p>
+</td><td>
+<p>Is called pre and post detachment the native instance. The &#8220;post&#8221; method is not enhanced.</p>
+</td></tr><tr><td>
+<p>DetachCopyCallback</p>
+</td><td>
+<p>detachCopy(Object)</p>
+</td><td>
+<p>Pre</p>
+<p>Post</p>
+</td><td>
+<p>Is called pre and post when creating a detached clone of the native instance. </p>
+</td></tr><tr><td>
+<p>FetchCallback</p>
+</td><td>
+<p>fetch(Object,int)</p>
+</td><td>
+<p>Post</p>
+</td><td>
+<p>Is called post fetching the instance from native memory. This method is not enhanced, useful to synchronize non-native fields with native fields. </p>
+</td></tr><tr><td>
+<p>MakeNativeCallback</p>
+</td><td>
+<p>makeNative(Object)</p>
+<p>makeNative(Object,NativeAddress,long)</p>
+</td><td>
+<p>Pre (two modes)</p>
+<p>Post</p>
+</td><td>
+<p>Is called pre and post made native (writing the native memory). The &#8220;pre&#8221; methods are not enhanced, are useful to prepare native fields before to write to native memory</p>
+</td></tr><tr><td>
+<p>UnFetchCallback</p>
+</td><td>
+<p>unFetch(Object,int)</p>
+</td><td>
+<p>Pre</p>
+</td><td>
+<p>Is called pre &#8220;unfetching&#8221; the instance to native memory. This method is not enhanced, useful to prepare native fields before to write to native memory. </p>
+</td></tr></tbody></table></div><p>Example: modifying MyStructure</p><p>public class MyStructure implements MakeNativeCallback</p><p>{ </p><p>public void jnieasyPreMakeNative(NativeAddress nativeAddress,long offset)</p><p>{</p><p>System.out.println("PreMakeNative (attached)");</p><p>System.out.println("Must be false: " + </p><p>NativeCapableUtil.isNative(this));</p><p>}</p><p></p><p>public void jnieasyPreMakeNative()</p><p>{</p><p>System.out.println("PreMakeNative (memory owner)");</p><p>System.out.println("Must be false: " + </p><p>NativeCapableUtil.isNative(this)); </p><p>}</p><p></p><p>public void jnieasyPostMakeNative()</p><p>{</p><p>System.out.println("PostMakeNative");</p><p>System.out.println("Must be true: " + </p><p>NativeCapableUtil.isNative(this)); </p><p>}</p><p>}</p><p></p><p>NativeManager natMgr = JNIEasy.get().getNativeManager();</p><p>MyStructure obj = new MyStructure();</p><p>natMgr.makeNative(obj); // Calls jnieasyPreMakeNative()</p><p> // and jnieasyPostMakeNative()</p><p>NativeBuffer address = NativeCapableUtil.getBuffer(obj);</p><p></p><p>MyStructure obj2 = new MyStructure();</p><p>natMgr.makeNative(obj2,address,0); </p><p>// Calls jnieasyPreMakeNative(Address,long) </p><p>// and jnieasyPostMakeNative()</p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id531538"></a>Interfaces implemented by normal classes working as listeners</h3></div></div></div><p>Instances of these classes must be registered in JNIEasy to receive events. These are the InstanceLifecycleListener based interfaces; listener methods will receive InstanceLifecycleEvent events. The listener interfaces are symmetric to the native instance interfaces.</p><p>A class working as a listener must implement only one InstanceLifecycleListener interface.</p><div class="informaltable"><table border="1"><colgroup><col><col><col></colgroup><tbody><tr><td>
+<p>Interface</p>
+</td><td>
+<p>Related symmetric instance interface</p>
+</td><td>
+<p>Event class</p>
+</td></tr><tr><td>
+<p>AttachLifecycleListener</p>
+</td><td>
+<p>AttachCallback</p>
+</td><td>
+<p>AttachLifecycleEvent</p>
+</td></tr><tr><td>
+<p>AttachCopyLifecycleListener</p>
+</td><td>
+<p>AttachCopyCallback</p>
+</td><td>
+<p>AttachCopyLifecycleEvent</p>
+</td></tr><tr><td>
+<p>DetachLifecycleListener</p>
+</td><td>
+<p>DetachCallback</p>
+</td><td>
+<p>DetachLifecycleEvent</p>
+</td></tr><tr><td>
+<p>DetachCopyLifecycleListener</p>
+</td><td>
+<p>DetachCopyCallback</p>
+</td><td>
+<p>DetachCopyLifecycleEvent</p>
+</td></tr><tr><td>
+<p>FetchLifecycleListener</p>
+</td><td>
+<p>FetchCallback</p>
+</td><td>
+<p>FetchLifecycleEvent</p>
+</td></tr><tr><td>
+<p>MakeNativeLifecycleListener</p>
+</td><td>
+<p>MakeNativeCallback</p>
+</td><td>
+<p>MakeNativeLifecycleEvent</p>
+</td></tr><tr><td>
+<p>UnFetchLifecycleListener</p>
+</td><td>
+<p>UnFetchCallback</p>
+</td><td>
+<p>UnFetchLifecycleEvent</p>
+</td></tr></tbody></table></div><p></p><p>Example:</p><p>package examples.manual;</p><p></p><p>import com.innowhere.jnieasy.core.util.NativeCapableUtil;</p><p>import com.innowhere.jnieasy.core.listener.MakeNativeLifecycleEvent;</p><p>import com.innowhere.jnieasy.core.listener.MakeNativeLifecycleListener;</p><p></p><p>public class MakeNativeListenerExample </p><p>implements MakeNativeLifecycleListener</p><p>{</p><p>public MakeNativeListenerExample()</p><p>{</p><p>}</p><p></p><p>public void preMakeNative(MakeNativeLifecycleEvent event)</p><p>{</p><p>if (event.isAttaching())</p><p>System.out.println("PreMakeNative (attached)");</p><p>else</p><p>System.out.println("PreMakeNative (memory owner)"); </p><p>System.out.println("Must be false: " + </p><p>NativeCapableUtil.isNative(event.getSource())); </p><p>}</p><p></p><p>public void postMakeNative(MakeNativeLifecycleEvent event)</p><p>{</p><p>System.out.println("PostMakeNative");</p><p>System.out.println("Must be true: " + </p><p>NativeCapableUtil.isNative(event.getSource())); </p><p>} </p><p>}</p><p>When register a listener, the classes &#8220;interested&#8221; must be specified:</p><p>MakeNativeListenerExample listener = new MakeNativeListenerExample(); JNIEasy.get().getNativeManager().addInstanceLifecycleListener(listener,</p><p>new Class[]{MyStructure.class});</p><p>the listener will receive &#8220;make native&#8221; events of MyStructure objects. Now the previous &#8220;makeNative&#8221; examples can be executed again to &#8220;fire&#8221; events.</p><p>NativeManager natMgr = JNIEasy.get().getNativeManager();</p><p>MyStructure obj = new MyStructure();</p><p>natMgr.makeNative(obj); // Calls preMakeNative() and postMakeNative()</p><p>NativeBuffer address = NativeCapableUtil.getBuffer(obj);</p><p></p><p>MyStructure obj2 = new MyStructure();</p><p>natMgr.makeNative(obj2,address,0); </p><p>// Calls preMakeNative() and postMakeNative()</p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s12.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s14.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Native Transactions </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Multithreading support</td></tr></table></div></body></html>

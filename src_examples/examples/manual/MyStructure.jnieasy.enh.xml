@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Archive MyStructure.jnieasy.enh.xml -->
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../schemas/JNIEasy.enh.xsd">    
+
+    <package name="examples.manual">
+        <imports /> 
+        <class name="MyStructure" type="structure">
+            <field name="intArr2" varConv="byValue" length="2" />
+            <field name="intArr3" length="2" />            
+            <field name="intArr4" varConv="byValue" length="2" />   
+         
+            <field name="crossPlatLong" address="true" />
+            <field name="crossPlatLongArray" >  
+                <component address="true" />
+            </field>
+            <field name="crossPlatLongObject">            
+                <component address="true" />
+            </field>
+            <field name="crossPlatNativeLong">            
+                <component address="true" />
+            </field>    
+            <field name="crossPlatNativeLongObject">            
+                <component address="true" />
+            </field>      
+            <field name="cChar" memSize="1" />
+        </class>
+    </package>        
+</jniEasyEnhancer>

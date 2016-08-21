@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    JNIEasy Schema, shared elements
+    v1.2
+    
+    Author : Jose Maria Arranz
+    (C) Innowhere S.L.
+-->
+
+<xs:schema elementFormDefault="qualified"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- No namespace must be declared to be included by different
+schemas with different namespaces. Removed attributes: 
+    xmlns="URLNamespace"
+    targetNamespace="URLNamespace"
+-->
+   
+    <xs:element name="include">
+        <xs:complexType>
+            <xs:attribute name="file" type="xs:string" use="required" /> 
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="imports">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="import" minOccurs="0" maxOccurs="unbounded"/> 
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="import">
+        <xs:complexType>
+            <xs:attribute name="class" type="xs:string" use="required" /> 
+        </xs:complexType>
+    </xs:element>    
+   
+    <xs:element name="return" type="nativeVarType" /> 
+    
+    <xs:element name="params">
+        <xs:complexType>          
+            <xs:sequence>
+                <xs:group ref="paramsGroup" />
+            </xs:sequence>
+            <xs:attribute name="params" type="xs:string"/>             
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:group name="paramsGroup">             
+        <xs:sequence>
+            <xs:element name="param" minOccurs="0" maxOccurs="unbounded" >
+               <xs:complexType>
+                   <xs:complexContent>
+                       <xs:extension base="nativeVarType">
+                            <xs:attribute name="name" /> <!-- ignored by the enhancer -->
+                            <xs:attribute name="varargs" />                            
+                       </xs:extension>
+                   </xs:complexContent>
+               </xs:complexType>     
+            </xs:element>
+        </xs:sequence>          
+    </xs:group>            
+    
+    <xs:complexType name="nativeVarType">
+        <xs:choice minOccurs="0" maxOccurs="1">
+            <xs:group ref="nativeVarTypeArrayElems"/>
+            <xs:group ref="nativeVarTypePointerElems"/>   
+            <xs:group ref="nativeVarTypeBehaviorElems"/>    
+        </xs:choice>       
+        <xs:attributeGroup ref="nativeVarTypeAttrs" />
+    </xs:complexType>       
+    
+    <xs:attributeGroup name="nativeVarTypeAttrs">
+        <xs:attribute name="varConv" >   
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="byValue|byPtr|byDefault"/>
+                </xs:restriction>
+            </xs:simpleType>          
+        </xs:attribute>        
+        <xs:attribute name="class" type="xs:string" />        
+        <xs:attribute name="dec" type="xs:string"/>
+        <xs:attributeGroup ref="nativeBehaviorSigAttrs"/>        
+        <xs:attributeGroup ref="nativeVarTypeArrayAttrs"/>         
+        <xs:attributeGroup ref="nativeVarTypePrimitiveAttrs"/>   
+        <xs:attributeGroup ref="nativeVarTypeStringBasedAttrs" />       
+    </xs:attributeGroup>    
+    
+    <xs:group name="nativeVarTypeArrayElems">
+      <xs:sequence>
+        <xs:element name="component" type="nativeVarType" />
+      </xs:sequence>
+    </xs:group>    
+    
+    <xs:attributeGroup name="nativeVarTypeArrayAttrs">    
+        <xs:attribute name="length" type="xs:nonNegativeInteger"/>        
+    </xs:attributeGroup>
+    
+    <xs:group name="nativeVarTypePointerElems">
+      <xs:sequence>
+        <xs:element name="pointer" type="nativeVarType" />
+      </xs:sequence>
+    </xs:group>      
+    
+    <xs:group name="nativeVarTypeBehaviorElems">
+        <xs:choice>
+            <xs:group ref="nativeVarTypeConstructorElems" />
+            <xs:group ref="nativeVarTypeMethodElems" /> 
+            <xs:group ref="nativeVarTypeFieldMethodElems" />       
+        </xs:choice>
+    </xs:group>      
+    
+    <xs:group name="nativeVarTypeConstructorElems">
+        <xs:sequence>
+            <xs:group ref="paramsGroup" />
+        </xs:sequence>        
+    </xs:group>
+    
+    <xs:group name="nativeVarTypeMethodElems">
+        <xs:sequence>
+            <xs:element ref="return" />    
+            <xs:element ref="params" minOccurs="0" maxOccurs="1"/> <!-- If params attribute is defined may be not needed --> 
+        </xs:sequence>        
+    </xs:group>    
+    
+    <xs:group name="nativeVarTypeFieldMethodElems">
+        <xs:sequence>
+            <xs:element name="fieldType" type="nativeVarType" />
+        </xs:sequence>
+    </xs:group>     
+    
+    <xs:attributeGroup name="nativeVarTypeStringBasedAttrs">
+        <xs:attribute name="encoding" type="xs:string"/>               
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="nativeVarTypePrimitiveAttrs">
+        <xs:attribute name="address">   
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="true|false"/>
+                </xs:restriction>
+            </xs:simpleType> 
+        </xs:attribute>    
+        <xs:attribute name="memSize" type="xs:string" />    
+        <xs:attribute name="prefAlignSize" type="xs:string" />        
+    </xs:attributeGroup>     
+   
+    <xs:attributeGroup name="nativeBehaviorSigAttrs"> 
+        <xs:attribute name="callConv">   
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="std_call|c_call"/>
+                </xs:restriction>
+            </xs:simpleType> 
+        </xs:attribute>               
+        <xs:attribute name="thisClass" type="xs:string"/>         
+        <xs:attribute name="decSignature" type="xs:string"/>        
+        <xs:attribute name="params" type="xs:string"/>        
+    </xs:attributeGroup>
+    
+</xs:schema>

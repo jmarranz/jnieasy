@@ -1,0 +1,15 @@
+LIBRARY    JNIEasy.dll
+EXPORTS
+  findExportedMethodAddress = _findExportedMethodAddress@4
+
+  onCallBoolean = _onCallBoolean@8
+  onCallByte = _onCallByte@8
+  onCallChar = _onCallChar@8
+  onCallDouble = _onCallDouble@8
+  onCallFloat = _onCallFloat@8
+  onCallInt = _onCallInt@8
+  onCallLong = _onCallLong@8
+  onCallPointer = _onCallPointer@8
+  onCallShort = _onCallShort@8
+  onCallVoid = _onCallVoid@8
+

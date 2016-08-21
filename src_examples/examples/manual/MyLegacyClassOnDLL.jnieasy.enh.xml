@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Archive MyLegacyClassOnDLL.jnieasy.enh.xml -->
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../schemas/JNIEasy.enh.xsd">    
+
+    <package name="examples.manual">
+        <imports/>    
+        <class name="MyLegacyClassOnDLL" type="class" 
+                libraryPath="MyLibrary" >
+                    
+            <constructor onLibrary="true" 
+                    nativeName="MSC:_MyLegacyClassOnDLL_create@8;gcc:MyLegacyClassOnDLL_create"
+                    params="int, int">            
+            </constructor>       
+            
+            <method name="destroy" onLibrary="true" 
+                    nativeName="MSC:_MyLegacyClassOnDLL_destroy@4;gcc:MyLegacyClassOnDLL_destroy"
+                    params="MyLegacyClassOnDLL">                 
+            </method>               
+            
+            <method name="addStatic" onLibrary="true" 
+                    nativeName="MSC:_MyLegacyClassOnDLL_addStatic@8;gcc:MyLegacyClassOnDLL_addStatic"
+                    params="int,int">
+            </method>
+            
+            <method name="sub" onLibrary="true" 
+                    nativeName="MSC:_MyLegacyClassOnDLL_sub@12;gcc:MyLegacyClassOnDLL_sub"
+                    params="int,int">               
+            </method>                   
+            
+        </class>        
+    </package>        
+</jniEasyEnhancer>

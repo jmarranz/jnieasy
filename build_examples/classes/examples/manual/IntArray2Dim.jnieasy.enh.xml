@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Archive IntArray2Dim.jnieasy.enh.xml -->
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../schemas/JNIEasy.enh.xsd">    
+
+    <package name="examples.manual">
+        <imports/>    
+        <class name="IntArray2Dim" type="array">
+            <field name="value" > <!-- length="2"  -->
+                <!-- <component  length="3" />   -->
+            </field>
+        </class>
+    </package>        
+</jniEasyEnhancer>

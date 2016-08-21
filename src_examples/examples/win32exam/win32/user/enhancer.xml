@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../../../schemas/JNIEasy.enh.xsd">    
+
+    <include file="WindowProc.jnieasy.enh.xml" />    
+    <include file="WndClassEx.jnieasy.enh.xml" /> 
+    
+    <package name="examples.win32exam.win32.user">
+        <imports />
+        <class name="Msg"  type="structure" > 
+            <field name="pt" varConv="byValue" />        
+        </class>  
+        <class name="PaintStruct"  type="structure" > 
+            <field name="rcPaint" varConv="byValue" />        
+            <field name="rgbReserved" varConv="byValue" length="32" />
+        </class>      
+    </package>
+</jniEasyEnhancer>

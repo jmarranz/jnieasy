@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MyCPPClassOnDLLGen.jnieasy.gen.xml -->
+<jniEasyJavaCodeGen version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/jgen"   
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/jgen 
+        ../../../schemas/JNIEasy.jgen.xsd">
+
+    <fileGen name="MyCPPClassOnDLLGen">
+        <package name="examples.manual" >
+            <imports >
+                <import class="java.io.*" />  
+            </imports>
+            <class name="MyCPPClassOnDLLGen" extends="Object" implements="java.io.Serializable,Cloneable" 
+                    libraryPath="MyLibrary" >     
+                 
+                <freeCode>
+    protected int virtualTable;
+    protected double value;
+
+    /* Empty constructor */
+    MyCPPClassOnDLLGen()
+    {
+    }
+                </freeCode>  
+                
+                <constructor 
+                        nativeName="MSC:?create@MyCPPClassOnDLL@@SGPAV1@HH@Z;gcc:_ZN15MyCPPClassOnDLL6createEii">                   
+                    <param class="int" name="a" />
+                    <param class="int" name="b" />                                 
+                </constructor> 
+
+                <method name="destroy" methodType="C"
+                        nativeName="MSC:?destroy@MyCPPClassOnDLL@@SGXPAV1@@Z;gcc:_ZN15MyCPPClassOnDLL7destroyEPS_">
+                    <return class="void" />            
+                    <params>             
+                        <param class="MyCPPClassOnDLL" name="obj" />
+                    </params>                    
+                </method>               
+
+                <method name="addStatic" methodType="C"
+                        nativeName="MSC:?addStatic@MyCPPClassOnDLL@@SG_JHH@Z;gcc:_ZN15MyCPPClassOnDLL9addStaticEii">
+                    <return class="long" />            
+                    <params>             
+                        <param class="int" name="a" />
+                        <param class="int" name="b" />
+                    </params>                    
+                </method>
+
+                <method name="sub" methodType="CPP"
+                        nativeName="MSC:?sub@MyCPPClassOnDLL@@UAGNHH@Z;gcc:_ZN15MyCPPClassOnDLL3subEii">
+                    <return class="double" />            
+                    <params>            
+                        <param class="int" name="a" />
+                        <param class="int" name="b" />             
+                    </params>                    
+                </method>  
+             
+                <method name="varargsEx" methodType="C"
+                        nativeName="MSC:?varargsEx@MyCPPClassOnDLL@@SAXPADZZ;gcc:_ZN15MyCPPClassOnDLL9varargsExEPcz" callConv="c_call">                            
+                    <return class="void" />            
+                    <params>            
+                        <param class="byte[]" name="buffer" />
+                        <param dec="Object..." name="args"  />             
+                    </params>            
+                </method>
+            
+            </class>
+        </package>
+    </fileGen>
+
+</jniEasyJavaCodeGen>

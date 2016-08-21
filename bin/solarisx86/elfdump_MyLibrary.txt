@@ -1,0 +1,224 @@
+
+Symbol Table Section:  .SUNW_ldynsym
+     index    value      size      type bind oth ver shndx          name
+       [0]  0x00000000 0x00000000  NOTY LOCL  D    0 UNDEF          
+       [1]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            libMyLibrary.so
+       [2]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crti.s
+       [3]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            values-Xa.c
+       [4]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crtstuff.c
+       [5]  0x000011c0 0x00000000  FUNC LOCL  D    0 .text          __do_global_dtors_aux
+       [6]  0x0000121c 0x00000000  FUNC LOCL  D    0 .text          frame_dummy
+       [7]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            Dimension.c
+       [8]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            JNIEasy.c
+       [9]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            JNIEasyHelper.cpp
+      [10]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            MyCPPClassOnDLL.cpp
+      [11]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            MyCPPClassOnJava.cpp
+      [12]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            main.cpp
+      [13]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crtstuff.c
+      [14]  0x0000188c 0x00000000  FUNC LOCL  D    0 .text          __do_global_ctors_aux
+      [15]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crtn.s
+
+Symbol Table Section:  .dynsym
+     index    value      size      type bind oth ver shndx          name
+       [0]  0x00000000 0x00000000  NOTY LOCL  D    0 UNDEF          
+       [1]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          __gxx_personality_v0
+       [2]  0x00000000 0x00000000  NOTY GLOB  D    0 UNDEF          printf
+       [3]  0x00000000 0x00000000  OBJT GLOB  D    0 UNDEF          _ZTVN10__cxxabiv117__class_type_infoE
+       [4]  0x00011f68 0x00000000  OBJT GLOB  D    0 .bss           _end
+       [5]  0x00011cc4 0x00000000  OBJT GLOB  D    0 .data          __dso_handle
+       [6]  0x00001280 0x00000088  FUNC GLOB  D    0 .text          findExportedMethodAddress
+       [7]  0x000013ac 0x0000004b  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper25findExportedMethodAddressEPKc
+       [8]  0x00000000 0x00000000  FUNC WEAK  D    0 UNDEF          __deregister_frame_info_bases
+       [9]  0x00001438 0x00000015  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper9getHandleEv
+      [10]  0x00001450 0x0000002e  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLC2Eii
+      [11]  0x00011f4c 0x00000004  OBJT GLOB  D    0 .bss           _ZN13JNIEasyHelper6handleE
+      [12]  0x00011f08 0x00000014  OBJT WEAK  D    0 .gnu.linkonce. _ZTV15MyCPPClassOnDLL
+      [13]  0x00011f24 0x00000000  OBJT GLOB  D    0 .gnu.linkonce. _edata
+      [14]  0x000014e8 0x0000002f  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLD0Ev
+      [15]  0x00011f5c 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava8_destroyE
+      [16]  0x000015ec 0x000000e1  FUNC GLOB  D    0 .text          MyCPPClassOnJava_example
+      [17]  0x00001554 0x0000001d  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL7destroyEPS_
+      [18]  0x000018c0 0x0000001d  FUNC GLOB  D    0 .init          _init
+      [19]  0x00011b64 0x00000000  OBJT GLOB  D    0 .dynamic       _DYNAMIC
+      [20]  0x00011f50 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava6_valueE
+      [21]  0x00001574 0x00000019  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL9addStaticEii
+      [22]  0x00001480 0x0000002e  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLC1Eii
+      [23]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          dlsym
+      [24]  0x000010d0 0x00000000  OBJT GLOB  D    0 .plt           _PROCEDURE_LINKAGE_TABLE_
+      [25]  0x00011f48 0x00000004  OBJT GLOB  D    0 .bss           _ZN13JNIEasyHelper28findExportedMethodAddressPtrE
+      [26]  0x000018e0 0x00000018  FUNC GLOB  D    0 .fini          _fini
+      [27]  0x000014b0 0x0000001c  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLD2Ev
+      [28]  0x000014cc 0x0000001c  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLD1Ev
+      [29]  0x000013f8 0x0000003d  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper6unloadEv
+      [30]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          _Znwj
+      [31]  0x000018f8 0x00000004  OBJT GLOB  D    0 .rodata        _lib_version
+      [32]  0x0000159c 0x0000001c  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL3subEii
+      [33]  0x00000000 0x00000000  NOTY GLOB  D    0 UNDEF          sprintf
+      [34]  0x00001328 0x00000081  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper4loadEv
+      [35]  0x00011f54 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava4_subE
+      [36]  0x00001308 0x0000001d  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper8isLoadedEv
+      [37]  0x00001750 0x00000139  FUNC GLOB  D    0 .text          MyCPPClassOnJava_field_example
+      [38]  0x000015b8 0x00000033  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL9varargsExEPcz
+      [39]  0x000016d0 0x0000007e  FUNC GLOB  D    0 .text          MyCPPClassOnJava_example2
+      [40]  0x00000000 0x00000000  FUNC WEAK  D    0 UNDEF          __register_frame_info_bases
+      [41]  0x00011f64 0x00000004  OBJT GLOB  D    0 .bss           aGlobalVar
+      [42]  0x00001ae9 0x00000000  OBJT GLOB  D    0 .gnu.linkonce. _etext
+      [43]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          dlclose
+      [44]  0x00000000 0x00000000  NOTY WEAK  D    0 UNDEF          _Jv_RegisterClasses
+      [45]  0x00011f44 0x00000004  OBJT GLOB  D    0 .bss           dllHandle
+      [46]  0x00011f58 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava10_addStaticE
+      [47]  0x00011f60 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava17_MyCPPClassOnJavaE
+      [48]  0x00011aec 0x00000000  OBJT GLOB  P    0 .got           _GLOBAL_OFFSET_TABLE_
+      [49]  0x00001ad7 0x00000012  OBJT WEAK  D    0 .gnu.linkonce. _ZTS15MyCPPClassOnDLL
+      [50]  0x00011f40 0x00000004  OBJT GLOB  D    0 .bss           findExportedMethodAddressPtr
+      [51]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          dlopen
+      [52]  0x00001518 0x0000003a  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL6createEii
+      [53]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          _ZdlPv
+      [54]  0x00001590 0x0000000a  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL8getValueEv
+      [55]  0x00011f1c 0x00000008  OBJT WEAK  D    0 .gnu.linkonce. _ZTI15MyCPPClassOnDLL
+
+Symbol Table Section:  .symtab
+     index    value      size      type bind oth ver shndx          name
+       [0]  0x00000000 0x00000000  NOTY LOCL  D    0 UNDEF          
+       [1]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            libMyLibrary.so
+       [2]  0x00000094 0x00000000  SECT LOCL  D    0 .hash          
+       [3]  0x00000268 0x00000000  SECT LOCL  D    0 .SUNW_ldynsym  
+       [4]  0x00000368 0x00000000  SECT LOCL  D    0 .dynsym        
+       [5]  0x000006e8 0x00000000  SECT LOCL  D    0 .dynstr        
+       [6]  0x00000ee0 0x00000000  SECT LOCL  D    0 .SUNW_version  
+       [7]  0x00000f20 0x00000000  SECT LOCL  D    0 .SUNW_dynsymso 
+       [8]  0x00000fc0 0x00000000  SECT LOCL  D    0 .SUNW_reloc    
+       [9]  0x00001060 0x00000000  SECT LOCL  D    0 .rel.plt       
+      [10]  0x000010d0 0x00000000  SECT LOCL  D    0 .plt           
+      [11]  0x000011c0 0x00000000  SECT LOCL  D    0 .text          
+      [12]  0x000018c0 0x00000000  SECT LOCL  D    0 .init          
+      [13]  0x000018e0 0x00000000  SECT LOCL  D    0 .fini          
+      [14]  0x000018f8 0x00000000  SECT LOCL  D    0 .rodata        
+      [15]  0x000018fc 0x00000000  SECT LOCL  D    0 .rodata.str1.1 
+      [16]  0x00001944 0x00000000  SECT LOCL  D    0 .rodata.str1.4 
+      [17]  0x00001ad7 0x00000000  SECT LOCL  D    0 .gnu.linkonce. 
+      [18]  0x00011aec 0x00000000  SECT LOCL  D    0 .got           
+      [19]  0x00011b64 0x00000000  SECT LOCL  D    0 .dynamic       
+      [20]  0x00011cc4 0x00000000  SECT LOCL  D    0 .data          
+      [21]  0x00011cc8 0x00000000  SECT LOCL  D    0 .bssf          
+      [22]  0x00011cc8 0x00000000  SECT LOCL  D    0 .picdata       
+      [23]  0x00011cc8 0x00000000  SECT LOCL  D    0 .ctors         
+      [24]  0x00011cd0 0x00000000  SECT LOCL  D    0 .dtors         
+      [25]  0x00011cd8 0x00000000  SECT LOCL  D    0 .eh_frame      
+      [26]  0x00011f00 0x00000000  SECT LOCL  D    0 .jcr           
+      [27]  0x00011f04 0x00000000  SECT LOCL  D    0 .data.rel.loca 
+      [28]  0x00011f08 0x00000000  SECT LOCL  D    0 .gnu.linkonce. 
+      [29]  0x00011f1c 0x00000000  SECT LOCL  D    0 .gnu.linkonce. 
+      [30]  0x00011f24 0x00000000  SECT LOCL  D    0 .bss           
+      [31]  0x00000000 0x00000000  SECT LOCL  D    0 .symtab        
+      [32]  0x00000000 0x00000000  SECT LOCL  D    0 .strtab        
+      [33]  0x00000000 0x00000000  SECT LOCL  D    0 .comment       
+      [34]  0x00000000 0x00000000  SECT LOCL  D    0 .shstrtab      
+      [35]  0x00011f68 0x00000000  OBJT LOCL  D    0 .bss           _END_
+      [36]  0x00000000 0x00000000  OBJT LOCL  D    0 .hash          _START_
+      [37]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crti.s
+      [38]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            values-Xa.c
+      [39]  0x00011cc4 0x00000000  NOTY LOCL  D    0 .data          Ddata.data
+      [40]  0x00011f24 0x00000000  NOTY LOCL  D    0 .bss           Bbss.bss
+      [41]  0x000018f8 0x00000000  NOTY LOCL  D    0 .rodata        Drodata.rodata
+      [42]  0x00011cc8 0x00000000  NOTY LOCL  D    0 .picdata       Dpicdata.picdata
+      [43]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crtstuff.c
+      [44]  0x00011cc8 0x00000000  OBJT LOCL  D    0 .ctors         __CTOR_LIST__
+      [45]  0x00011cd0 0x00000000  OBJT LOCL  D    0 .dtors         __DTOR_LIST__
+      [46]  0x00011cd8 0x00000000  OBJT LOCL  D    0 .eh_frame      __EH_FRAME_BEGIN__
+      [47]  0x00011f00 0x00000000  OBJT LOCL  D    0 .jcr           __JCR_LIST__
+      [48]  0x00011f04 0x00000000  OBJT LOCL  D    0 .data.rel.loca p.0
+      [49]  0x00011f24 0x00000001  OBJT LOCL  D    0 .bss           completed.1
+      [50]  0x000011c0 0x00000000  FUNC LOCL  D    0 .text          __do_global_dtors_aux
+      [51]  0x00011f28 0x00000018  OBJT LOCL  D    0 .bss           object.2
+      [52]  0x0000121c 0x00000000  FUNC LOCL  D    0 .text          frame_dummy
+      [53]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            Dimension.c
+      [54]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            JNIEasy.c
+      [55]  0x000018fd 0x00000000  NOTY LOCL  D    0 .rodata.str1.1 .LC0
+      [56]  0x0000190b 0x00000000  NOTY LOCL  D    0 .rodata.str1.1 .LC2
+      [57]  0x00001944 0x00000000  NOTY LOCL  D    0 .rodata.str1.4 .LC1
+      [58]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            JNIEasyHelper.cpp
+      [59]  0x000018fd 0x00000000  NOTY LOCL  D    0 .rodata.str1.1 .LC0
+      [60]  0x00001988 0x00000000  NOTY LOCL  D    0 .rodata.str1.4 .LC1
+      [61]  0x0000190b 0x00000000  NOTY LOCL  D    0 .rodata.str1.1 .LC2
+      [62]  0x00001328 0x00000000  NOTY LOCL  D    0 .text          .LFB3
+      [63]  0x000013ac 0x00000000  NOTY LOCL  D    0 .text          .LFB2
+      [64]  0x000013f8 0x00000000  NOTY LOCL  D    0 .text          .LFB4
+      [65]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            MyCPPClassOnDLL.cpp
+      [66]  0x000019cc 0x00000000  NOTY LOCL  D    0 .rodata.str1.4 .LC0
+      [67]  0x00001518 0x00000000  NOTY LOCL  D    0 .text          .LFB9
+      [68]  0x00001554 0x00000000  NOTY LOCL  D    0 .text          .LFB10
+      [69]  0x000015b8 0x00000000  NOTY LOCL  D    0 .text          .LFB14
+      [70]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            MyCPPClassOnJava.cpp
+      [71]  0x00001925 0x00000000  NOTY LOCL  D    0 .rodata.str1.1 .LC2
+      [72]  0x000019f4 0x00000000  NOTY LOCL  D    0 .rodata.str1.4 .LC0
+      [73]  0x00001a28 0x00000000  NOTY LOCL  D    0 .rodata.str1.4 .LC1
+      [74]  0x00001a58 0x00000000  NOTY LOCL  D    0 .rodata.str1.4 .LC3
+      [75]  0x00001934 0x00000000  NOTY LOCL  D    0 .rodata.str1.1 .LC7
+      [76]  0x00001aa4 0x00000000  NOTY LOCL  D    0 .rodata.str1.4 .LC5
+      [77]  0x000015ec 0x00000000  NOTY LOCL  D    0 .text          .LFB10
+      [78]  0x000016d0 0x00000000  NOTY LOCL  D    0 .text          .LFB11
+      [79]  0x00001750 0x00000000  NOTY LOCL  D    0 .text          .LFB12
+      [80]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            main.cpp
+      [81]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crtstuff.c
+      [82]  0x00011ccc 0x00000000  OBJT LOCL  D    0 .ctors         __CTOR_END__
+      [83]  0x00011cd4 0x00000000  OBJT LOCL  D    0 .dtors         __DTOR_END__
+      [84]  0x00011efc 0x00000000  OBJT LOCL  D    0 .eh_frame      __FRAME_END__
+      [85]  0x00011f00 0x00000000  OBJT LOCL  D    0 .jcr           __JCR_END__
+      [86]  0x0000188c 0x00000000  FUNC LOCL  D    0 .text          __do_global_ctors_aux
+      [87]  0x00000000 0x00000000  FILE LOCL  D    0 ABS            crtn.s
+      [88]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          __gxx_personality_v0
+      [89]  0x00000000 0x00000000  NOTY GLOB  D    0 UNDEF          printf
+      [90]  0x00000000 0x00000000  OBJT GLOB  D    0 UNDEF          _ZTVN10__cxxabiv117__class_type_infoE
+      [91]  0x00011f68 0x00000000  OBJT GLOB  D    0 .bss           _end
+      [92]  0x00011cc4 0x00000000  OBJT GLOB  D    0 .data          __dso_handle
+      [93]  0x00001280 0x00000088  FUNC GLOB  D    0 .text          findExportedMethodAddress
+      [94]  0x000013ac 0x0000004b  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper25findExportedMethodAddressEPKc
+      [95]  0x00000000 0x00000000  FUNC WEAK  D    0 UNDEF          __deregister_frame_info_bases
+      [96]  0x00001438 0x00000015  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper9getHandleEv
+      [97]  0x00001450 0x0000002e  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLC2Eii
+      [98]  0x00011f4c 0x00000004  OBJT GLOB  D    0 .bss           _ZN13JNIEasyHelper6handleE
+      [99]  0x00011f08 0x00000014  OBJT WEAK  D    0 .gnu.linkonce. _ZTV15MyCPPClassOnDLL
+     [100]  0x00011f24 0x00000000  OBJT GLOB  D    0 .gnu.linkonce. _edata
+     [101]  0x000014e8 0x0000002f  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLD0Ev
+     [102]  0x00011f5c 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava8_destroyE
+     [103]  0x000015ec 0x000000e1  FUNC GLOB  D    0 .text          MyCPPClassOnJava_example
+     [104]  0x00001554 0x0000001d  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL7destroyEPS_
+     [105]  0x000018c0 0x0000001d  FUNC GLOB  D    0 .init          _init
+     [106]  0x00011b64 0x00000000  OBJT GLOB  D    0 .dynamic       _DYNAMIC
+     [107]  0x00011f50 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava6_valueE
+     [108]  0x00001574 0x00000019  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL9addStaticEii
+     [109]  0x00001480 0x0000002e  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLC1Eii
+     [110]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          dlsym
+     [111]  0x000010d0 0x00000000  OBJT GLOB  D    0 .plt           _PROCEDURE_LINKAGE_TABLE_
+     [112]  0x00011f48 0x00000004  OBJT GLOB  D    0 .bss           _ZN13JNIEasyHelper28findExportedMethodAddressPtrE
+     [113]  0x000018e0 0x00000018  FUNC GLOB  D    0 .fini          _fini
+     [114]  0x000014b0 0x0000001c  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLD2Ev
+     [115]  0x000014cc 0x0000001c  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLLD1Ev
+     [116]  0x000013f8 0x0000003d  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper6unloadEv
+     [117]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          _Znwj
+     [118]  0x000018f8 0x00000004  OBJT GLOB  D    0 .rodata        _lib_version
+     [119]  0x0000159c 0x0000001c  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL3subEii
+     [120]  0x00000000 0x00000000  NOTY GLOB  D    0 UNDEF          sprintf
+     [121]  0x00001328 0x00000081  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper4loadEv
+     [122]  0x00011f54 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava4_subE
+     [123]  0x00001308 0x0000001d  FUNC GLOB  D    0 .text          _ZN13JNIEasyHelper8isLoadedEv
+     [124]  0x00001750 0x00000139  FUNC GLOB  D    0 .text          MyCPPClassOnJava_field_example
+     [125]  0x000015b8 0x00000033  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL9varargsExEPcz
+     [126]  0x000016d0 0x0000007e  FUNC GLOB  D    0 .text          MyCPPClassOnJava_example2
+     [127]  0x00000000 0x00000000  FUNC WEAK  D    0 UNDEF          __register_frame_info_bases
+     [128]  0x00011f64 0x00000004  OBJT GLOB  D    0 .bss           aGlobalVar
+     [129]  0x00001ae9 0x00000000  OBJT GLOB  D    0 .gnu.linkonce. _etext
+     [130]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          dlclose
+     [131]  0x00000000 0x00000000  NOTY WEAK  D    0 UNDEF          _Jv_RegisterClasses
+     [132]  0x00011f44 0x00000004  OBJT GLOB  D    0 .bss           dllHandle
+     [133]  0x00011f58 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava10_addStaticE
+     [134]  0x00011f60 0x00000004  OBJT GLOB  D    0 .bss           _ZN16MyCPPClassOnJava17_MyCPPClassOnJavaE
+     [135]  0x00011aec 0x00000000  OBJT GLOB  P    0 .got           _GLOBAL_OFFSET_TABLE_
+     [136]  0x00001ad7 0x00000012  OBJT WEAK  D    0 .gnu.linkonce. _ZTS15MyCPPClassOnDLL
+     [137]  0x00011f40 0x00000004  OBJT GLOB  D    0 .bss           findExportedMethodAddressPtr
+     [138]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          dlopen
+     [139]  0x00001518 0x0000003a  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL6createEii
+     [140]  0x00000000 0x00000000  FUNC GLOB  D    0 UNDEF          _ZdlPv
+     [141]  0x00001590 0x0000000a  FUNC GLOB  D    0 .text          _ZN15MyCPPClassOnDLL8getValueEv
+     [142]  0x00011f1c 0x00000008  OBJT WEAK  D    0 .gnu.linkonce. _ZTI15MyCPPClassOnDLL

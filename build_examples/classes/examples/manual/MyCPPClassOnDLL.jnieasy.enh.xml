@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Archive MyCPPClassOnDLL.jnieasy.enh.xml -->
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../schemas/JNIEasy.enh.xsd">    
+
+    <package name="examples.manual">
+        <imports/>    
+        <class name="MyCPPClassOnDLL" type="class" 
+                libraryPath="MyLibrary" >
+
+            <constructor onLibrary="true" 
+                    nativeName="MSC:?create@MyCPPClassOnDLL@@SGPAV1@HH@Z;gcc:_ZN15MyCPPClassOnDLL6createEii"
+                    params="int, int">            
+            </constructor>       
+            
+            <method name="destroy" onLibrary="true" 
+                    nativeName="MSC:?destroy@MyCPPClassOnDLL@@SGXPAV1@@Z;gcc:_ZN15MyCPPClassOnDLL7destroyEPS_"
+                    params="MyCPPClassOnDLL">                 
+            </method>               
+            
+            <method name="addStatic" onLibrary="true" 
+                    nativeName="MSC:?addStatic@MyCPPClassOnDLL@@SG_JHH@Z;gcc:_ZN15MyCPPClassOnDLL9addStaticEii">
+                <return />            
+                <params params="int,int" />
+            </method>
+            
+            <method name="sub" onLibrary="true" 
+                    nativeName="MSC:?sub@MyCPPClassOnDLL@@UAGNHH@Z;gcc:_ZN15MyCPPClassOnDLL3subEii">                            
+                <return />            
+                <params>            
+                    <param class="int" />
+                    <param class="int" />             
+                </params>                         
+            </method>  
+                
+            <method name="varargsEx" onLibrary="true" 
+                    nativeName="MSC:?varargsEx@MyCPPClassOnDLL@@SAXPADZZ;gcc:_ZN15MyCPPClassOnDLL9varargsExEPcz" callConv="c_call">                            
+                <return />            
+                <params>            
+                    <param class="byte[]" />
+                    <param class="Object[]" varargs="true"  />             
+                </params>                    
+            </method>                     
+        </class>        
+    </package>        
+</jniEasyEnhancer>

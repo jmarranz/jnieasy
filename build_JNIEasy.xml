@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="compilarTodo" name="JNIEasy">
+
+    <property name="debug_mode" value="n"/> <!-- y/n -->
+
+    <condition property="debug" value="-Xdebug" else="-Dfoo"> <!-- En Linux es necesario pasar algo en jvmarg o falla -->
+      <equals arg1="${debug_mode}" arg2="y" />
+    </condition>
+    <condition property="runjdwp" value="-Xrunjdwp:transport=dt_shmem,address=jdbconn,server=y,suspend=y" else="-Dfoo2"> <!-- En Linux es necesario pasar algo en jvmarg o falla -->
+      <equals arg1="${debug_mode}" arg2="y" />
+    </condition>
+
+    <!-- Convertimos ${basedir} (definido por Ant) a formato UNIX para que lo tolere el bash de CygWin -->
+    <path id="basedirPath">
+      <pathelement location="${basedir}"/>
+    </path>
+    <pathconvert targetos="unix" property="basePath" refid="basedirPath" />
+
+    <property file="conf/conf_build_JNIEasy.properties"/>
+    <property name="java.source.version" value="1.4" />
+    <property name="java.target.version" value="1.4" />
+
+    <!-- http://fisheye5.cenqua.com/browse/glassfish/packager-ext/package-common.xml?r=MAIN -->
+    <condition property="dll_directory" value="${program.bin.win32x86}">
+        <and>
+            <os family="windows"/>
+            <not><equals arg1="${os.arch}" arg2="amd64"/></not>
+        </and>
+    </condition>
+    <condition property="dll_directory" value="${program.bin.winx86_64}">
+        <and>
+            <os family="windows"/>
+            <equals arg1="${os.arch}" arg2="amd64"/>
+        </and>
+    </condition>
+    <condition property="dll_directory" value="${program.bin.linuxx86}">
+        <equals arg1="${os.name}" arg2="Linux"/>
+        <!--<and><os family="unix"/><not><os family="mac"/></not></and>-->
+    </condition>
+    <condition property="dll_directory" value="${program.bin.macosxx86}">
+        <os family="mac"/>
+    </condition>
+    <condition property="dll_directory" value="${program.bin.solarisx86}">
+         <os name="SunOS" /> <!-- arch="sparc" -->
+         <!-- <equals arg1="${os.name}" arg2="SunOS"/> -->
+    </condition>
+
+    <path id="classPath">
+        <pathelement location="${program.build.classes}"/>
+        <pathelement location="${program.build.test.classes}"/>
+        <pathelement location="${program.bin}/javassist.jar"/>
+        <pathelement location="${program.bin}/bcprov-jdk14-130.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${program.build.classes}" />
+    </target>
+
+    <target name="compile">
+        <!-- Si se han ofuscado los .class hacer antes clean -->
+        <mkdir dir="${program.build.classes}"/>
+        <javac debug="true" srcdir="${program.src}" destdir="${program.build.classes}"
+                source="${java.source.version}" target="${java.target.version}">
+            <include name="com/innowhere/jnieasy/core/**"/>
+            <classpath>
+                <path refid="classPath"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="_compile_native" depends="compile" > <!-- compile es porque se genera JNI -->
+        <property name="javah" value="${JAVA_HOME}/bin/javah.exe" />
+        <property name="pkg_jnieasy_jni" value="com.innowhere.jnieasy.core.impl.jni"/>
+
+        <mkdir dir="${program.build_cpp}"/>
+        <exec dir="${program.build.classes}" executable="${javah}">
+            <arg line="-jni -o ${program.src_cpp}/source/JNIEasyNative.h ${pkg_jnieasy_jni}.JNIEasyNative"/>
+        </exec>
+        <exec dir="${program.build.classes}" executable="${javah}">
+            <arg line="-jni -o ${program.src_cpp}/source/BufferNative.h ${pkg_jnieasy_jni}.BufferNative"/>
+        </exec>
+        <exec dir="${program.build.classes}" executable="${javah}">
+            <arg line="-jni -o ${program.src_cpp}/source/MethodNative.h ${pkg_jnieasy_jni}.MethodNative"/>
+        </exec>
+        <exec dir="${program.build.classes}" executable="${javah}">
+            <arg line="-jni -o ${program.src_cpp}/source/DynamicLibraryNative.h ${pkg_jnieasy_jni}.DynamicLibraryNative"/>
+        </exec>
+        <exec dir="${program.build.classes}" executable="${javah}">
+            <arg line="-jni -o ${program.src_cpp}/source/JNIEasyLibraryNative.h ${pkg_jnieasy_jni}.JNIEasyLibraryNative"/>
+        </exec>
+        <exec dir="${program.build.classes}" executable="${javah}">
+            <arg line="-jni -o ${program.src_cpp}/source/CallbackStateManagerNative.h ${pkg_jnieasy_jni}.CallbackStateManagerNative"/>
+        </exec>
+        <exec dir="${program.build.classes}" executable="${javah}">
+            <arg line="-jni -o ${program.src_cpp}/source/JNIEnv.h ${pkg_jnieasy_jni}.JNIEnv"/>
+        </exec>
+
+    </target>
+
+    <target name="compile_native_win32x86" depends="_compile_native" >
+        <mkdir dir="${program.build_cpp.win32x86}"/>
+        <exec dir="${program.build_cpp.win32x86}" executable="${program.src_cpp.win32x86}/compile.bat">
+            <env key="DevStudio" value="${DevStudio}"/>
+        </exec>
+        <copy file="${program.build_cpp.win32x86}/JNIEasy.dll" todir="${program.bin.win32x86}"/>
+        <copy file="${program.build_cpp.win32x86}/JNIEasy.lib" todir="${program.lib.win32x86}"/>
+    </target>
+
+    <target name="compile_native_linuxx86" depends="_compile_native" >
+        <mkdir dir="${program.build_cpp.linuxx86}"/>
+
+        <exec dir="${program.build_cpp.linuxx86}" executable="${SH_WIN32}">
+            <env key="BUILD_DIR" value="${program.build_cpp.linuxx86}" />
+            <env key="GCC_LINUX_X86" value="${GCC_Linux_x86}" />
+            <arg value="--login" />
+            <arg value="-k" />
+            <arg value="-c" />
+            <arg value="${program.src_cpp.linuxx86}/compile.sh" />
+        </exec>
+
+        <copy file="${program.build_cpp.linuxx86}/libJNIEasy.so" todir="${program.bin.linuxx86}" preservelastmodified="true" />
+    </target>
+
+    <target name="deploy" depends="compile" > <!-- clean,  -->
+        <jar basedir="${program.build.classes}" destfile="${program.bin}/JNIEasy.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name} - Jose Maria Arranz"/>
+                <attribute name="Class-Path" value="JNIEasy.jar javassist.jar bcprov-jdk14-130.jar"/>
+                <attribute name="Implementation-Title" value="${program.name}" />
+                <attribute name="Implementation-Vendor" value="Innowhere Software Services S.L." />
+                <attribute name="Implementation-Version" value="${program.version}" />
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="javadoc" depends="compile">
+        <delete dir="${program.build.javadoc}" />
+        <javadoc packagenames="com.innowhere.jnieasy.core.*"
+               sourcepath="${program.src}"
+               excludepackagenames="com.innowhere.jnieasy.core.impl.*"
+               defaultexcludes="yes"
+               destdir="${program.build.javadoc}"
+               author="true"
+               version="true"
+               use="true"
+               windowtitle="${program.name} v${program.javadoc.prog.version}, doc. version v${program.javadoc.doc.version}">
+            <classpath>
+                <path refid="classPath"/>
+            </classpath>
+
+            <doctitle>
+                <![CDATA[
+                <h1>${program.name} v${program.javadoc.prog.version} <font size="-1">(doc. version v${program.javadoc.doc.version})</font></h1>
+                ]]>
+            </doctitle>
+            <bottom>
+                <![CDATA[
+                Copyright © 2006 Innowhere Software Services S.L. All Rights Reserved.
+                ]]>
+            </bottom>
+        </javadoc>
+    </target>
+
+</project>

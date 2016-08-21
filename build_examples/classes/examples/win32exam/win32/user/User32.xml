@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jniEasyJavaCodeGen version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/jgen"   
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/jgen 
+        ../../../../../schemas/JNIEasy.jgen.xsd">
+
+    <fileGen name="User32">
+        <package name="examples.win32exam.win32.user" >
+            <imports>
+                <import class="examples.win32exam.win32.def.*" />
+                <import class="com.innowhere.jnieasy.core.data.*" />
+            </imports>
+            <class name="User32" libraryPath="User32">
+
+                <!--    
+                HDC BeginPaint(
+                  HWND hwnd,            // handle to window
+                  OUT LPPAINTSTRUCT lpPaint // paint information
+                );
+                -->
+                <method name="BeginPaint" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hwnd" />
+                        <param class="PaintStruct" name="lpPaint" />                
+                    </params>
+                </method>
+                
+                <!--    
+                HWND CreateWindowEx(
+                  DWORD dwExStyle,      // extended window style
+                  IN LPCTSTR lpClassName,  // pointer to registered class name
+                  IN LPCTSTR lpWindowName, // pointer to window name
+                  DWORD dwStyle,        // window style
+                  int x,                // horizontal position of window
+                  int y,                // vertical position of window
+                  int nWidth,           // window width
+                  int nHeight,          // window height
+                  HWND hWndParent,      // handle to parent or owner window
+                  HMENU hMenu,          // handle to menu, or child-window identifier
+                  HINSTANCE hInstance,  // handle to application instance
+                  LPVOID lpParam        // pointer to window-creation data
+                );
+                --> 
+                <method name="CreateWindowEx" nativeName="ANSI:CreateWindowExA;UNICODE:CreateWindowExW;CreateWindowExA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="dwExStyle" />
+                        <param class="String" name="lpClassName" encoding="ANSI:ansi;UNICODE:unicode;ansi" />                
+                        <param class="String" name="lpWindowName" encoding="ANSI:ansi;UNICODE:unicode;ansi" /> 
+                        <param class="int" name="dwStyle" />
+                        <param class="int" name="x" />                
+                        <param class="int" name="y" />
+                        <param class="int" name="nWidth" />
+                        <param class="int" name="nHeigth" />
+                        <param class="int" name="hwndParent" />                
+                        <param class="int" name="hMenu" />                
+                        <param class="int" name="hInstance" />
+                        <param class="int" name="lParam" />  
+                    </params>              
+                </method> 
+                
+                <!--
+                LRESULT DefWindowProc(
+                  HWND hWnd,      // handle to window
+                  UINT Msg,       // message identifier
+                  WPARAM wParam,  // first message parameter
+                  LPARAM lParam   // second message parameter
+                );
+                -->    
+                <method name="DefWindowProc" nativeName="DefWindowProcA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hWnd" />
+                        <param class="int" name="msg" />
+                        <param class="int" name="wParam" />                
+                        <param class="int" name="lParam" />
+                    </params>
+                </method> 
+                
+                <!--    
+                BOOL DestroyWindow(
+                  HWND hWnd   // handle to window to destroy
+                );
+                -->    
+                <method name="DestroyWindow" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hWnd" />
+                    </params>
+                </method> 
+                
+                <!--    
+                LONG DispatchMessage(
+                  IN CONST MSG *lpmsg   // pointer to structure with message
+                );
+                -->    
+                <method name="DispatchMessage" nativeName="DispatchMessageA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="Msg" name="pMsg" />
+                    </params>
+                </method>  
+                
+                <!--    
+                int DrawText(
+                  HDC hDC,          // handle to DC
+                  IN LPCTSTR lpString, // text to draw
+                  int nCount,       // text length
+                  IN OUT LPRECT lpRect,    // formatting dimensions
+                  UINT uFormat      // text-drawing options
+                );    
+                 -->
+                <method name="DrawText" nativeName="DrawTextA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hDC" />
+                        <param class="String" name="lpString" />                
+                        <param class="int" name="nCount" />                
+                        <param class="Rect" name="lpRect" />                
+                        <param class="int" name="uFormat" />                 
+                    </params>
+                </method> 
+
+                <!--    
+                BOOL EndPaint(
+                  HWND hWnd,                  // handle to window
+                  IN CONST PAINTSTRUCT *lpPaint  // paint data
+                );
+                 -->    
+                <method name="EndPaint" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hWnd" />
+                        <param class="PaintStruct" name="lpPaint" />                
+                    </params>
+                </method> 
+                
+                <!--    
+                BOOL GetClassInfoEx(
+                  HINSTANCE hinst,    // handle of application instance
+                  IN LPCTSTR lpszClass,  // address of class name string
+                  OUT LPWNDCLASSEX lpwcx  // address of structure for class data
+                );
+                -->  
+                <method name="GetClassInfoEx" nativeName="GetClassInfoExA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hinst" />
+                        <param class="String" name="lpszClass" />
+                        <param class="WndClassEx" name="lpwcx" />
+                    </params>
+                </method>        
+                <!-- With the handle (atom) as int -->
+                <method name="GetClassInfoEx" nativeName="GetClassInfoExA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hinst" />
+                        <param class="int" name="lpszClass" />
+                        <param class="WndClassEx" name="lpwcx" />
+                    </params>
+                </method>                 
+
+                <!--
+                BOOL GetClientRect(
+                  HWND hWnd,      // handle to window
+                  OUT LPRECT lpRect   // address of structure for client coordinates
+                );
+                -->
+                <method name="GetClientRect" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hWnd" />
+                        <param class="Rect" name="rect" />
+                    </params>
+                </method>
+                
+                <!--
+                BOOL GetMessage(
+                  OUT LPMSG lpMsg,         // address of structure with message
+                  HWND hWnd,           // handle of window
+                  UINT wMsgFilterMin,  // first message
+                  UINT wMsgFilterMax   // last message
+                );
+                -->
+                <method name="GetMessage" nativeName="GetMessageA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="Msg" name="lpMsg" />
+                        <param class="int" name="hwnd" />                
+                        <param class="int" name="wMsgFilterMin" /> 
+                        <param class="int" name="wMsgFilterMax" />                
+                    </params>
+                </method> 
+                
+                <!--    
+                HCURSOR LoadCursor(
+                  HINSTANCE hInstance,  // handle to application instance
+                  IN LPCTSTR lpCursorName  // name string or cursor resource identifier
+                );
+                -->
+                <method name="LoadCursor" nativeName="LoadCursorA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hInstance" />                
+                        <param class="int" name="lpCursorName" />                 
+                    </params>
+                </method> 
+                
+                <!--
+                HICON LoadIcon(
+                  HINSTANCE hInstance, // handle to application instance
+                  IN LPCTSTR lpIconName   // icon-name string or icon resource 
+                                       // identifier
+                );
+                -->
+                <method name="LoadIcon" nativeName="LoadIconA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hInstance" />                
+                        <param class="int" name="lpIconName" />                 
+                    </params>
+                </method>                
+                
+                <!--    
+                VOID PostQuitMessage(
+                  int nExitCode   // exit code
+                );
+                -->
+                <method name="PostQuitMessage" methodType="C" >
+                    <return class="void" />
+                    <params>                
+                        <param class="int" name="nExitCode" />                
+                    </params>
+                </method>
+                
+                <!--    
+                ATOM RegisterClassEx(
+                  CONST WNDCLASSEX *lpwcx  // address of structure with class data
+                );
+                -->    
+                <method name="RegisterClassEx" nativeName="RegisterClassExA" methodType="C" >
+                    <return class="short" />
+                    <params>                
+                        <param class="WndClassEx" name="lpwcx" />                
+                    </params>
+                </method>
+
+                <!--    
+                BOOL ShowWindow(
+                  HWND hWnd,     // handle to window
+                  int nCmdShow   // show state of window
+                );
+                 -->
+                <method name="ShowWindow" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hWnd" />                
+                        <param class="int" name="nCmdShow" />
+                    </params>
+                </method> 
+                
+                <!--    
+                BOOL TranslateMessage(
+                  IN CONST MSG *lpMsg   // address of structure with message
+                );
+                -->    
+                <method name="TranslateMessage" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="Msg" name="lpMsg" />                
+                    </params>
+                </method>
+                
+                <!--    
+                BOOL UnregisterClass(
+                  IN LPCTSTR lpClassName,  // address of class name string
+                  HINSTANCE hInstance   // handle of application instance
+                );
+                -->    
+                <method name="UnregisterClass" nativeName="UnregisterClassA" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="String" name="lpClassName" />                
+                        <param class="int" name="hInstance" />                 
+                    </params>
+                </method>
+                
+                <!--    
+                BOOL UpdateWindow(
+                  HWND hWnd   // handle of window
+                );
+                -->    
+                <method name="UpdateWindow" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="hWnd" />                 
+                    </params>
+                </method> 
+                
+            </class>
+        </package>
+    </fileGen>
+
+</jniEasyJavaCodeGen>

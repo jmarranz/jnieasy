@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Archive MyCPPClassOnJava.jnieasy.enh.xml -->
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../schemas/JNIEasy.enh.xsd">    
+
+    <package name="examples.manual">
+        <imports /> 
+        <class name="MyCPPClassOnJava" type="class">
+            <constructor exportMethod="true" params="int,int">            
+            </constructor>   
+            <method name="destroy" exportMethod="true"
+                params="MyCPPClassOnJava">                  
+            </method>     
+            <method name="addStatic" exportMethod="true" params="int,int">                   
+            </method>             
+            <method name="sub" exportMethod="true" params="int,int">                    
+            </method>
+            <fieldMethod name="value" exportMethod="true" /> 
+        </class>
+    </package>
+</jniEasyEnhancer>

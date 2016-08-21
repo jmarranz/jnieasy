@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MyCPPClassOnJavaSubCallback.jnieasy.enh.xml -->
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../schemas/JNIEasy.enh.xsd">    
+
+    <package name="examples.manual">
+        <imports /> 
+        <class name="MyCPPClassOnJavaSubCallback" type="callback" >
+            <method name="sub" thisClass="MyCPPClassOnJava" params="int,int">                   
+            </method>
+        </class>
+    </package>
+</jniEasyEnhancer>

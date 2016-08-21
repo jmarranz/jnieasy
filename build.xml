@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="run_examples_win32x86" name="JNIEasy_src_fordist">
+
+    <property name="debug_mode" value="n"/> <!-- y/n -->
+
+    <condition property="debug" value="-Xdebug" else="-Dfoo"> <!-- In Linux is mandatory put anything in <jvmarg> -->
+      <equals arg1="${debug_mode}" arg2="y" />
+    </condition>
+    <condition property="runjdwp" value="-Xrunjdwp:transport=dt_shmem,address=jdbconn,server=y,suspend=y" else="-Dfoo2"> <!-- In Linux is mandatory put anything in <jvmarg> -->
+      <equals arg1="${debug_mode}" arg2="y" />
+    </condition>
+
+    <!-- ${basedir} defined by Ant, is converted to UNIX to use with bash of CygWin -->
+    <path id="basedirPath">
+      <pathelement location="${basedir}"/>
+    </path>
+    <pathconvert targetos="unix" property="basePath" refid="basedirPath" />
+
+    <property file="conf/conf.properties"/>
+
+    <property name="java.source.version" value="1.4" />
+    <property name="java.target.version" value="1.4" />
+
+    <condition property="dll_directory" value="${program.bin.win32x86}">
+        <os family="windows"/>
+    </condition>
+    <condition property="dll_directory" value="${program.bin.linuxx86}">
+        <equals arg1="${os.name}" arg2="Linux"/>
+    </condition>
+    <condition property="dll_directory" value="${program.bin.macosxx86}">
+        <os family="mac"/>
+    </condition>
+    <condition property="dll_directory" value="${program.bin.solarisx86}">
+         <os name="SunOS" />
+    </condition>
+
+    <path id="classPath">
+        <pathelement location="${program.build.examples.classes}"/>
+        <pathelement location="${program.bin}/JNIEasy.jar"/>
+        <pathelement location="${program.bin}/xercesImpl.jar"/>
+        <pathelement location="${program.bin}/xml-apis.jar"/>
+        <pathelement location="${program.bin}/javassist.jar"/>
+        <pathelement location="${program.bin}/InnowhereUtil.jar"/>
+        <pathelement location="${program.bin}/bcprov-jdk14-130.jar"/>
+    </path>
+
+    <target name="compile_native_examples_win32x86_msc" >
+        <mkdir dir="${program.build_cpp.examples.win32x86.msc}"/>
+        <exec dir="${program.build_cpp.examples.win32x86.msc}" executable="${program.src_cpp.examples.win32x86}/compile.bat">
+            <env key="MSCInitEnv" value="${MSCInitEnv}"/>
+        </exec>
+        <copy file="${program.build_cpp.examples.win32x86.msc}/MyLibrary.dll" todir="${program.bin.win32x86}"/>
+    </target>
+
+    <target name="compile_native_examples_win32x86_gcc">
+        <mkdir dir="${program.build_cpp.examples.win32x86.gcc}"/>
+        <exec dir="${program.build_cpp.examples.win32x86.gcc}" executable="${LinuxEmuBin}/sh.exe">
+            <env key="BUILD_DIR_TEST" value="${program.build_cpp.examples.win32x86.gcc}" />
+            <env key="GCC_WIN32_X86" value="${GCC_Win32_x86}" />
+            <env key="PATH" value="${LinuxEmuBin}" />
+            <arg value="--login" />
+            <arg value="-k" />
+            <arg value="-c" />
+            <arg value="${program.src_cpp.examples.win32x86}/compile.sh" />
+        </exec>
+        <copy file="${program.build_cpp.examples.win32x86.gcc}/MyLibrary.dll" todir="${program.bin.win32x86}" preservelastmodified="true" />
+    </target>
+
+    <target name="compile_native_examples_linuxx86">
+        <mkdir dir="${program.build_cpp.examples.linuxx86}"/>
+        <exec dir="${program.build_cpp.examples.linuxx86}" executable="sh">
+            <env key="BUILD_DIR_TEST" value="${program.build_cpp.examples.linuxx86}" />
+            <arg value="-c" />
+            <arg value="${program.src_cpp.examples.linuxx86}/compile.sh" />
+        </exec>
+        <copy file="${program.build_cpp.examples.linuxx86}/libMyLibrary.so" todir="${program.bin.linuxx86}" preservelastmodified="true" />
+    </target>
+
+    <target name="compile_native_examples_macosxx86">
+        <mkdir dir="${program.build_cpp.examples.macosxx86}"/>
+        <exec dir="${program.build_cpp.examples.macosxx86}" executable="sh">
+            <env key="BUILD_DIR_TEST" value="${program.build_cpp.examples.macosxx86}" />
+            <arg value="--login" />
+            <arg value="-k" />
+            <arg value="-c" />
+            <arg value="${program.src_cpp.examples.macosxx86}/compile.sh" />
+        </exec>
+        <copy file="${program.build_cpp.examples.macosxx86}/libMyLibrary.dylib" todir="${program.bin.macosxx86}" preservelastmodified="true" />
+    </target>
+
+    <target name="compile_native_examples_solarisx86">
+        <mkdir dir="${program.build_cpp.examples.solarisx86}"/>
+        <exec dir="${program.build_cpp.examples.solarisx86}" executable="sh">
+            <env key="BUILD_DIR_TEST" value="${program.build_cpp.examples.solarisx86}" />
+            <arg value="-c" />
+            <arg value="${program.src_cpp.examples.solarisx86}/compile.sh" />
+        </exec>
+        <copy file="${program.build_cpp.examples.solarisx86}/libMyLibrary.so" todir="${program.bin.solarisx86}" preservelastmodified="true" />
+    </target>
+
+    <target name="clean_examples">
+        <delete dir="${program.build.examples.classes}" />
+    </target>
+
+    <target name="generate_examples" >
+        <java classname="com.innowhere.jnieasy.core.cgen.NativeJavaCodeGeneratorCmd" fork="true" >
+            <sysproperty key="java.library.path" value="${dll_directory}${path.separator}${java.library.path}"/>
+            <sysproperty key="JNIEASY_LICENSE_DIR" value="${program.bin}"/>
+            <arg value="-enhanceOnLoad"/>
+            <arg value="examples.manual;examples.manual.inc"/>
+            <arg value="${program.src.examples}/examples/proxygen.xml"/>
+            <arg value="${program.src.examples}/examples"/>
+            <classpath>
+                <path refid="classPath"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="compile_examples" depends="generate_examples">
+      <mkdir dir="${program.build.examples}"/>
+      <mkdir dir="${program.build.examples.classes}"/>
+      <copy preservelastmodified="true" todir="${program.build.examples.classes}">
+          <fileset dir="${program.src.examples}" excludes="**/*.java"/>
+          <!-- copy the .xml files close to .class files -->
+      </copy>
+      <javac debug="true" srcdir="${program.src.examples}"
+            destdir="${program.build.examples.classes}"
+            source="${java.source.version}" target="${java.target.version}">
+        <include name="examples/**"/>
+        <classpath>
+            <path refid="classPath"/>
+        </classpath>
+      </javac>
+    </target>
+
+    <target name="enhance_examples" depends="compile_examples" >
+        <java classname="com.innowhere.jnieasy.core.enh.NativeEnhancerCmd" fork="true">
+            <sysproperty key="java.library.path" value="${dll_directory}${path.separator}${java.library.path}"/>
+            <sysproperty key="JNIEASY_LICENSE_DIR" value="${program.bin}"/>
+            <arg value="file:${program.build.examples.classes}/examples/enhancer.xml"/>
+            <arg value="${program.build.examples.classes}"/>
+            <classpath>
+                <path refid="classPath"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="run_examples" depends="enhance_examples"  >
+        <java classname="examples.RunExamples" fork="true">
+            <sysproperty key="java.library.path" value="${dll_directory}${path.separator}${java.library.path}"/>
+            <sysproperty key="JNIEASY_LICENSE_DIR" value="${program.bin}"/>
+            <jvmarg value="${debug}"/>
+            <jvmarg value="${runjdwp}"/>
+            <classpath>
+                <path refid="classPath"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="deploy_examples" depends="enhance_examples">
+        <jar basedir="${program.build.examples.classes}" destfile="${program.bin}/JNIEasyExamples.jar">
+            <manifest>
+               <attribute name="Built-By" value="${user.name} - Jose Maria Arranz"/>
+               <attribute name="Class-Path" value="JNIEasy.jar"/>
+               <attribute name="Main-Class" value="examples.RunExamples"/>
+            </manifest>
+        </jar>
+    </target>
+
+</project>

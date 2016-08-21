@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jniEasyJavaCodeGen version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/jgen"   
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/jgen 
+        ../../../../schemas/JNIEasy.jgen.xsd">
+   
+    <include file="user/User32.xml" />    
+    <include file="gdi/GDI32.xml" />      
+</jniEasyJavaCodeGen>

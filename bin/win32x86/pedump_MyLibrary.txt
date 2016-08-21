@@ -1,0 +1,188 @@
+Dump of file MYLIBRARY.DLL
+
+File Header
+  Machine:                      014C (i386)
+  Number of Sections:           0004
+  TimeDateStamp:                47ED52BB -> Fri Mar 28 21:19:07 2008
+  PointerToSymbolTable:         00000000
+  NumberOfSymbols:              00000000
+  SizeOfOptionalHeader:         00E0
+  Characteristics:              210E
+    EXECUTABLE_IMAGE
+    LINE_NUMS_STRIPPED
+    LOCAL_SYMS_STRIPPED
+    32BIT_MACHINE
+    DLL
+
+Optional Header
+  Magic                         010B
+  linker version                6.00
+  size of code                  8000
+  size of initialized data      8000
+  size of uninitialized data    0
+  entrypoint RVA                17EE
+  base of code                  1000
+  base of data                  9000
+  image base                    10000000
+  section align                 1000
+  file align                    1000
+  required OS version           4.00
+  image version                 0.00
+  subsystem version             4.00
+  Win32 Version                 0
+  size of image                 11000
+  size of headers               1000
+  checksum                      0
+  Subsystem                     0002 (Windows GUI)
+  DLL flags                     0000
+  stack reserve size            100000
+  stack commit size             1000
+  heap reserve size             100000
+  heap commit size              1000
+  RVAs & sizes                  10
+
+Data Directory
+  EXPORT       rva: 00009D10  size: 00000363
+  IMPORT       rva: 00009834  size: 00000028
+  RESOURCE     rva: 00000000  size: 00000000
+  EXCEPTION    rva: 00000000  size: 00000000
+  SECURITY     rva: 00000000  size: 00000000
+  BASERELOC    rva: 00010000  size: 00000774
+  DEBUG        rva: 00000000  size: 00000000
+  COPYRIGHT    rva: 00000000  size: 00000000
+  GLOBALPTR    rva: 00000000  size: 00000000
+  TLS          rva: 00000000  size: 00000000
+  LOAD_CONFIG  rva: 00000000  size: 00000000
+  BOUND_IMPORT rva: 00000000  size: 00000000
+  IAT          rva: 00009000  size: 000000DC
+  DELAY_IMPORT rva: 00000000  size: 00000000
+  unused       rva: 00000000  size: 00000000
+  unused       rva: 00000000  size: 00000000
+
+Section Table
+  01 .text     VirtSize: 0000756A  VirtAddr:  00001000
+    raw data offs:   00001000  raw data size: 00008000
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 60000020
+      CODE  EXECUTE  READ  ALIGN_DEFAULT(16)
+
+  02 .rdata    VirtSize: 00001073  VirtAddr:  00009000
+    raw data offs:   00009000  raw data size: 00002000
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  READ  ALIGN_DEFAULT(16)
+
+  03 .data     VirtSize: 000048EC  VirtAddr:  0000B000
+    raw data offs:   0000B000  raw data size: 00004000
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: C0000040
+      INITIALIZED_DATA  READ  WRITE  ALIGN_DEFAULT(16)
+
+  04 .reloc    VirtSize: 00000EE6  VirtAddr:  00010000
+    raw data offs:   0000F000  raw data size: 00001000
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 42000040
+      INITIALIZED_DATA  DISCARDABLE  READ  ALIGN_DEFAULT(16)
+
+
+
+
+Imports Table:
+  KERNEL32.dll
+  OrigFirstThunk:  0000985C (Unbound IAT)
+  TimeDateStamp:   00000000 -> Thu Jan 01 01:00:00 1970
+  ForwarderChain:  00000000
+  First thunk RVA: 00009000
+  Ordn  Name
+   318  GetProcAddress
+   450  LoadLibraryA
+   202  GetCommandLineA
+   372  GetVersion
+   426  InitializeCriticalSection
+    85  DeleteCriticalSection
+   102  EnterCriticalSection
+   449  LeaveCriticalSection
+   125  ExitProcess
+   415  HeapFree
+   294  GetModuleHandleA
+   559  RtlUnwind
+   409  HeapAlloc
+   670  TerminateProcess
+   247  GetCurrentProcess
+   250  GetCurrentThreadId
+   677  TlsSetValue
+   674  TlsAlloc
+   675  TlsFree
+   625  SetLastError
+   676  TlsGetValue
+   282  GetLastError
+   621  SetHandleCount
+   338  GetStdHandle
+   277  GetFileType
+   336  GetStartupInfoA
+   292  GetModuleFileNameA
+   178  FreeEnvironmentStringsA
+   179  FreeEnvironmentStringsW
+   722  WideCharToMultiByte
+   262  GetEnvironmentStrings
+   264  GetEnvironmentStringsW
+   265  GetEnvironmentVariableA
+   373  GetVersionExA
+   413  HeapDestroy
+   411  HeapCreate
+   703  VirtualFree
+   735  WriteFile
+   699  VirtualAlloc
+   418  HeapReAlloc
+   429  InterlockedDecrement
+   432  InterlockedIncrement
+   618  SetFilePointer
+   191  GetCPInfo
+   185  GetACP
+   305  GetOEMCP
+   484  MultiByteToWideChar
+   339  GetStringTypeA
+   342  GetStringTypeW
+   447  LCMapStringA
+   448  LCMapStringW
+   636  SetStdHandle
+   170  FlushFileBuffers
+    27  CloseHandle
+
+
+exports table:
+
+  Name:            MyLibrary.dll
+  Characteristics: 00000000
+  TimeDateStamp:   47ED52BB -> Fri Mar 28 21:19:07 2008
+  Version:         0.00
+  Ordinal base:    00000001
+  # of functions:  00000014
+  # of Names:      00000014
+
+  Entry Pt  Ordn  Name
+  00001000     1  ??0MyCPPClassOnDLL@@QAE@ABV0@@Z
+  000010A0     2  ??0MyCPPClassOnDLL@@QAE@HH@Z
+  000010C0     3  ??1MyCPPClassOnDLL@@UAE@XZ
+  00001020     4  ??4MyCPPClassOnDLL@@QAEAAV0@ABV0@@Z
+  000090E4     5  ??_7MyCPPClassOnDLL@@6B@
+  00001100     6  ?addStatic@MyCPPClassOnDLL@@SG_JHH@Z
+  000010D0     7  ?create@MyCPPClassOnDLL@@SGPAV1@HH@Z
+  000013F0     8  ?destroy@MyCPPClassOnDLL@@SGXPAV1@@Z
+  00001120     9  ?getValue@MyCPPClassOnDLL@@QAGNXZ
+  00001130    10  ?sub@MyCPPClassOnDLL@@UAGNHH@Z
+  00001150    11  ?varargsEx@MyCPPClassOnDLL@@SAXPADZZ
+  00001200    12  _MyCPPClassOnJava_example2@0
+  00001180    13  _MyCPPClassOnJava_example@0
+  00001270    14  _MyCPPClassOnJava_field_example@0
+  00001410    15  _MyLegacyClassOnDLL_addStatic@8
+  000013C0    16  _MyLegacyClassOnDLL_create@8
+  000013F0    17  _MyLegacyClassOnDLL_destroy@4
+  00001430    18  _MyLegacyClassOnDLL_getValue@4
+  00001440    19  _MyLegacyClassOnDLL_sub@12
+  0000E1A8    20  aGlobalVar
+

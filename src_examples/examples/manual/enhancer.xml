@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- enhancer.xml -->
+<jniEasyEnhancer version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/enhancer"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/enhancer 
+        ../../../schemas/JNIEasy.enh.xsd">    
+
+    <include file="AddTwoNumbersCallback.jnieasy.enh.xml" />
+    <include file="AddTwoNumbersCallbackOutside.jnieasy.enh.xml" />
+    <include file="AddTwoNumbersCallbackToOverride.jnieasy.enh.xml" />        
+    <include file="Dimension.jnieasy.enh.xml" />        
+    <include file="EnumWindowsProc.jnieasy.enh.xml" />   
+    <include file="IntArray2Dim.jnieasy.enh.xml" /> 
+    <include file="MyCPPClassOnDLL.jnieasy.enh.xml" />             
+    <include file="MyLegacyClassOnDLL.jnieasy.enh.xml" />    
+    <include file="MyCPPClassOnJava.jnieasy.enh.xml"/>       
+    <include file="MyCPPClassOnJavaConstructorCallback.jnieasy.enh.xml"/>
+    <include file="MyCPPClassOnJavaDestroyCallback.jnieasy.enh.xml"/>        
+    <include file="MyCPPClassOnJavaSubCallback.jnieasy.enh.xml"/>
+    <include file="MyStructure.jnieasy.enh.xml"/>    
+    <include file="MyStructureArray.jnieasy.enh.xml"/> 
+    <include file="PointerToString.jnieasy.enh.xml"/>
+        
+    <include file="inc/enhancer2.xml" />
+</jniEasyEnhancer>

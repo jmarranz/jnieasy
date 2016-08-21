@@ -1,0 +1,2 @@
+
+ El Visual C++ en este caso es usado como un mero editor C++

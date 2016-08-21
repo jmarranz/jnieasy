@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jniEasyJavaCodeGen version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/jgen"   
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/jgen 
+        ../../../../../schemas/JNIEasy.jgen.xsd">
+
+    <fileGen name="GDI32">
+        <package name="examples.win32exam.win32.gdi" >
+            <imports />            
+            <class name="GDI32" libraryPath="GDI32">
+                <!--
+                HGDIOBJ GetStockObject(
+                  int fnObject   // type of stock object
+                );  
+                -->    
+                <method name="GetStockObject" methodType="C" >
+                    <return class="int" />
+                    <params>                
+                        <param class="int" name="fnObject" />
+                    </params>
+                </method>
+
+            </class>
+        </package>
+    </fileGen>
+        
+</jniEasyJavaCodeGen>

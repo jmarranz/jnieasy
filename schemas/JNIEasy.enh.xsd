@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    JNIEasy Schema for Java Bytecode Enhancement
+    v1.2
+    
+    Author : Jose Maria Arranz
+    (C) Innowhere S.L.
+-->
+
+<xs:schema elementFormDefault="qualified"
+           targetNamespace="http://www.innowhere.com/jnieasy/enhancer"
+           xmlns="http://www.innowhere.com/jnieasy/enhancer"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:include schemaLocation="JNIEasy.shared.xsd"/>     
+    
+    <xs:element name="jniEasyEnhancer">
+        <xs:complexType>       
+            <xs:choice minOccurs="0" maxOccurs="unbounded">          
+                <xs:element ref="include" minOccurs="0" maxOccurs="unbounded"/>           
+                <xs:element ref="package" minOccurs="0" maxOccurs="unbounded"/>              
+            </xs:choice>
+            <xs:attribute name="version" type="xs:string" use="required" />      
+        </xs:complexType>
+    </xs:element>
+    
+   <xs:element name="package">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="imports" /> 
+                <xs:element ref="class" minOccurs="1" maxOccurs="unbounded"/>            
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required" /> 
+        </xs:complexType>
+   </xs:element>
+
+
+    <xs:element name="class">
+       <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="field" minOccurs="0" maxOccurs="unbounded"/> 
+                <xs:element ref="constructor" minOccurs="0" maxOccurs="unbounded"/>                
+                <xs:element ref="method" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="fieldMethod" minOccurs="0" maxOccurs="unbounded"/>                
+            </xs:choice>           
+            <xs:attribute name="name" type="xs:string" use="required" /> 
+            <xs:attribute name="type" use="required" >           
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:pattern value="structure|class|union|array|pointer|callback"/>
+                  </xs:restriction>
+                </xs:simpleType>                
+            </xs:attribute>
+            <xs:attribute name="allFields" >   
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="true|false"/>
+                    </xs:restriction>
+                </xs:simpleType>          
+            </xs:attribute>            
+            <xs:attribute name="allMethods" >   
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="true|false"/>
+                    </xs:restriction>
+                </xs:simpleType>          
+            </xs:attribute>     
+            <xs:attribute name="libraryPath" type="xs:string" /> 
+            <xs:attribute name="alignSize" type="xs:positiveInteger"/>         
+       </xs:complexType>
+    </xs:element>         
+       
+    <xs:attributeGroup name="memberAttrs">
+        <xs:attribute name="enhance" >   
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="true|false"/>
+                </xs:restriction>
+            </xs:simpleType>          
+        </xs:attribute>             
+    </xs:attributeGroup>          
+    
+    <xs:element name="field">           
+       <xs:complexType>           
+           <xs:complexContent>               
+               <xs:extension base="nativeVarType">
+                    <xs:attributeGroup ref="memberAttrs" />
+                    <xs:attribute name="name" type="xs:string" use="required" />                
+                    <xs:attribute name="alignSize" type="xs:positiveInteger"/>        
+                    <xs:attribute name="union" >   
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:pattern value="begin|end"/>
+                            </xs:restriction>
+                        </xs:simpleType>          
+                    </xs:attribute>
+               </xs:extension>
+           </xs:complexContent>
+       </xs:complexType>
+    </xs:element>    
+    
+    <xs:complexType name="behaviorType">
+        <xs:attributeGroup ref="memberAttrs" />
+        <xs:attribute name="useReflection" >   
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="true|false"/>
+                </xs:restriction>
+            </xs:simpleType>          
+        </xs:attribute> 
+        <xs:attribute name="exportMethod" >   
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="true|false"/>
+                </xs:restriction>
+            </xs:simpleType>          
+        </xs:attribute>   
+        <xs:attribute name="onLibrary" type="xs:string" />               
+        <xs:attribute name="nativeName" type="xs:string" />
+        <xs:attributeGroup ref="nativeBehaviorSigAttrs" />        
+    </xs:complexType>    
+    
+    <xs:element name="constructor">            
+       <xs:complexType>
+           <xs:complexContent>
+               <xs:extension base="behaviorType">
+                    <xs:choice minOccurs="0" maxOccurs="1">                   
+                        <xs:group ref="nativeVarTypeConstructorElems" />
+                    </xs:choice>
+               </xs:extension>
+           </xs:complexContent>
+       </xs:complexType>
+    </xs:element>           
+    
+    <xs:element name="method" > 
+       <xs:complexType>
+           <xs:complexContent>
+               <xs:extension base="behaviorType">
+                    <xs:choice minOccurs="0" maxOccurs="1">                   
+                        <xs:group ref="nativeVarTypeMethodElems" />
+                        <xs:group ref="paramsGroup" /> <!-- only if enhance="false" -->
+                    </xs:choice>                   
+                    <xs:attribute name="name" use="required" />
+               </xs:extension>
+           </xs:complexContent>
+       </xs:complexType>
+    </xs:element>    
+
+    <xs:element name="fieldMethod" > 
+       <xs:complexType>
+           <xs:complexContent>
+               <xs:extension base="behaviorType">
+                    <xs:sequence>                   
+                        <xs:group ref="nativeVarTypeFieldMethodElems" minOccurs="0" maxOccurs="1" />                        
+                    </xs:sequence>                   
+                    <xs:attribute name="name" use="required" />
+               </xs:extension>
+           </xs:complexContent>
+       </xs:complexType>
+    </xs:element>
+
+</xs:schema>

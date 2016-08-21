@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.ant.freeform</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <!-- Do not use Project Properties customizer when editing this file manually. -->
+            <name>JNIEasy_src_fordist</name>
+            <properties/>
+            <folders>
+                <source-folder>
+                    <label>src_examples</label>
+                    <type>java</type>
+                    <location>src_examples</location>
+                </source-folder>
+            </folders>
+            <ide-actions>
+                <action name="build">
+                    <target>compile_examples</target>
+                </action>
+                <action name="run">
+                    <target>run_examples</target>
+                </action>
+            </ide-actions>
+            <view>
+                <items>
+                    <source-folder style="packages">
+                        <label>src_examples</label>
+                        <location>src_examples</location>
+                    </source-folder>
+                    <source-file>
+                        <location>build.xml</location>
+                    </source-file>
+                </items>
+                <context-menu>
+                    <ide-action name="build"/>
+                    <ide-action name="run"/>
+                </context-menu>
+            </view>
+            <subprojects/>
+        </general-data>
+        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
+            <compilation-unit>
+                <package-root>src_examples</package-root>
+                <classpath mode="compile">bin/bcprov-jdk14-130.jar;bin/InnowhereUtil.jar;bin/javassist.jar;bin/JNIEasy.jar;bin/xercesImpl.jar;bin/xml-apis.jar</classpath>
+                <source-level>1.4</source-level>
+            </compilation-unit>
+        </java-data>
+    </configuration>
+</project>

@@ -1,0 +1,15 @@
+
+Ejecutar compile.sh desde el Mac OS X 
+
+1) Montando el directorio "desarrollo" 
+    Menu: Go/Connect to Server
+    smb://direccionIP/desarrollo
+
+2) Ir a:
+cd /Volumes/desarrollo/JNIEasy/src_cpp/macosxx86
+
+3) Ejecutar:
+
+./compile.sh
+o 
+sh compile.sh

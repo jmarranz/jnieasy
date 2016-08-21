@@ -1,0 +1,1047 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Architecture</title><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><link rel="start" href="index.html" title=""><link rel="up" href="index.html" title=""><link rel="prev" href="ar01s03.html" title="considerations"><link rel="next" href="ar01s05.html" title="Declaration and creation of native capable objects"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Architecture</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s03.html">Prev</a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s05.html">Next</a></td></tr></table><hr></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id353394"></a>Architecture</h2></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id353398"></a>Definitions</h3></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353402"></a>Native </h4></div></div></div><p>Represents the C/C++ world, Java elements declared as native means they are related with the C/C++ side.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353409"></a>Native memory </h4></div></div></div><p>Is memory addressed and controlled by the native side (or by JNIEasy in the Java side), a block of native memory is created with malloc() (or similar methods), or with new (generally this C++ sentence is based on malloc()). Native memory must be distinguished from &#8220;Java memory&#8221;, Java memory is the memory controlled exclusively by the Java Virtual Machine (JVM). A JNIEasy main task is synchronizing native memory and Java memory transparently.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353416"></a>Native capable</h4></div></div></div><p>Any Java element that may have a role in JNIEasy, prepared to represent something in the native side. Native capable may be classes, methods, fields, object instances&#8230;</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353430"></a>Native capable class</h4></div></div></div><p>A native capable class is a normal Java class previously that implements the NativeCapable interface, prepared to represent native object instances. There are two types: predefined classes (provided by the framework) and user defined (enhanced).</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353438"></a>Native object instance</h4></div></div></div><p>A native object instance is a Java object of a native capable class with a related native memory block, the native memory layout can be a C structure, a C++ class, a C native string (&#8216;\0&#8217; terminated), a simple native integer etc. A native instance always has a native memory address (different to Java memory address, this address is managed by the JVM not JNIEasy). A native object instance is reflected in the native side as a class/structure/union instance, a pointer to method, a native array (int[]), a zero ended string etc.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353462"></a>Native capable object instance</h4></div></div></div>Native capable object instance<p>An object instance of a native capable class that is not native (no native address/native memory block associated). A native capable object instance can be made native.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353470"></a>Native interfaces</h4></div></div></div><p>Are interfaces predefined by JNIEasy inheriting from NativeCapable. Represent different types of native elements: Structure represents a C structure, CPPClass a C++ class, NativeString a native string mapped with java.lang.String, NativeIntegerArray a native array mapped with a normal int[] Java array etc. The developer does not need deal with these interfaces unless a fine control is requested.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353485"></a>User defined native capable class</h4></div></div></div><p>Is a class coded by the user and enhanced or prepared to be enhanced on load time. The enhancement process makes this class native capable implementing the NativeCapable interface. The fields and methods of these classes can be declared as native, and managed by the framework. The code of a user defined native capable class is managed code by the enhancer. The enhancement provides the native capabilities to the user class. </p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353499"></a>&#8220;Can be native&#8221; class/object</h4></div></div></div>&#8220;Can be native&#8221; class/object<p>A &#8220;can be native&#8221; class is a basic standard Java class with a native corresponding element. For instance: String and StringBuffer objects correspond to a '\0' terminated native string (char* if ANSI or wchar_t* if UNICODE), an int[] array corresponds to a native jint[] array (jint usually is equivalent to int C data type), a String[] or StringBuffer[] with an array of char* or wchar_t* pointers, an Integer object with an addressed jint integer, a java.lang.reflect.Method reference with a native method pointer etc. </p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353518"></a>Predefined native capable class</h4></div></div></div><p>Is a native capable class predefined by JNIEasy. JNIEasy provides a rich set of native capable classes representing (wrapping) most of the basic native elements like strings, arrays of primitive types etc. Most of these classes are artifacts to make native can be native objects, an instance of a predefined class typically wraps a &#8220;can be native&#8221; object. These classes may be not used directly, because the wrapped can be native objects may be used instead (in managed/enhanced code). Furthermore, predefined native classes are hidden by the framework and cannot be used explicitly, instead, every predefined class has a public native interface (NativeString, NativeIntegerObject etc), object instances of theses classes are created using the framework and may be accessed using the related native interface. Example: a NativeString object wraps a String object.</p><p>Predefined native capable classes/interfaces provides you with a fine control of the native memory, they are used extensively and internally to provide the native behavior of user defined native capable classes with &#8220;can be native&#8221; fields (String, Method, Integer etc), and methods declared as native proxies, notwithstanding, they can be used in native fields too (a NativeString field is basically the same as a String field, but with NativeString is possible to access a specific character without fetch/unfetch the full native string from/to native). </p><p>Use of predefined native capable classes makes the distinction of a fully transparent native programming (using POJOs with extensive use of code generation and/or enhancement) where the Java code is like C/C++ programming in Java with all Java advantages (the &#8220;easy&#8221; level), or using predefined native capable classes to gain more control of the native memory and code no so transparent and clean.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353586"></a>Native enabled Java type</h4></div></div></div><p>A &#8220;native enabled Java type&#8221; is a Java type that can represent a native type. Native enabled types are: native capable classes and interfaces (user defined and predefined), &#8220;can be native&#8221; classes and primitive types.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353601"></a>Native (capable) wrapper class/object</h4></div></div></div><p>A native capable wrapper class is a predefined or user defined native capable class whose main purpose is to make native a contained (wrapped) &#8220;can be native&#8221; object. The user can use these classes directly to take full control of the native memory associated to the &#8220;can be native&#8221; object or use directly the &#8220;can be native&#8221; object in a managed code (a native wrapper object will be used behind the scenes). Example: the predefined class implementing NativeString wraps String, NativeIntegerObject wraps Integer and so on.</p><p></p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353629"></a>Native type</h4></div></div></div><p>Is the &#8220;native view&#8221; of a native enabled Java type usually contained in a native instance (e.g. an int field declared as native has a native type). Defines how is made native an instance of this type. For example, a native object of a class implementing the NativeString or a String object may represent a &#8216;\0&#8217; terminated string of char or a L&#8217;\0&#8217; terminated string of wchar_t, depending on the native type associated to this instance (used to create the instance or defaulted if used new), the NativeString interface and String class are not sufficient themselves to describe the native layout. The native type may be seen as the type of the native object itself (the type of the resulting of new MyNativeClass()), not the type of a reference to this object (ex. MyNativeClass ref). Any native capable object (non-native) has a concrete native type, this native type will be used to define the native layout when native. A native capable or &#8220;can be native&#8221; class usually has a default, complete, native type (there are exceptions like Method and related predefined native capable classes, the default native type is incomplete, a native method signature must be specified).</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353668"></a>Native variable type</h4></div></div></div><p>Represents a native declaration of a field member with a native enabled type, a formal parameter declaration or return type of a Java method declared as native. It must be seen as the native type of the declaration of a variable. In this Java field declaration: MyNativeClass ref = new MyNativeClass(), the native view of the created object instance is driven by the native type, and the native view of the reference is driven by the native variable type. Native variable types mimic the C conventionalism of &#8220;by pointer&#8221; or &#8220;by value&#8221;, if &#8220;by pointer&#8221; ref is a pointer to the created object on native memory and may change, if &#8220;by value&#8221; ref &#8220;contains&#8221; the native memory itself and cannot change (the implicit address); this distinction is specially useful declaring method parameters and fields &#8220;by value&#8221; or &#8220;by pointer&#8221;, for instance: a int[] Java field of a user defined native capable class (a C++ class or structure or union in the native side) can be declared &#8220;by value&#8221; (the array is embedded) or &#8220;by pointer&#8221; (the field is a pointer to array, int*). The &#8220;by reference&#8221; (using the &amp; sign of C) is a special case of &#8220;by pointer&#8221; and is not defined by JNIEasy.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353984"></a>Native capable method signature</h4></div></div></div><p>When a Java method has parameters and return using native enabled types.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353994"></a>Native method signature</h4></div></div></div><p>Represents the JNIEasy concrete native declaration of parameters and return of a native capable method signature (of a DLL method reflected in Java, a Java callback&#8230;). The native call convention, standard call or C call, is declared too.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id354010"></a>Native (capable) field </h4></div></div></div><p>A native capable field is a normal Java field member with a native enabled type. If declared as native this field matches with a hypothetical field in the native layout of a native instance of the container class, the native layout may be a primitive data type, a pointer (if declared &#8220;by pointer&#8221;), a native structure, class or array (if declared &#8220;by value&#8221;). A native field is a native capable field of a native instance and has an implicit address.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id354033"></a>Native (capable) method</h4></div></div></div><p>A native capable method is a normal Java method with a native capable signature, declared as native using a native method signature. This method may be declared as a proxy of a method contained in a Dynamic Link Library (DLL<sup>[<a name="id354045" href="#ftn.id354045">1</a>]</sup>) or a callback &#8220;callable&#8221; from C/C++ and may represent a C++ constructor, a C++ method (instance method), a C method or a field wrapped with a special method. A native capable method is not necessarily contained in a native capable class. A Java native method is a native capable method with a native address and can be called from native. A Java native method has a related native object method ever (sometimes is created internally by the framework), this object can be used to manage the method like a pointer to method in Java and pass a reference of this object to the native side (the native side receives this reference like a pointer to method).</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id354076"></a>Native (capable) field-method</h4></div></div></div>Native (capable) field-method<p>A native capable field-method is a native capable method wrapping a native capable field with the following signature:</p><p>Static field</p><p>FieldType fieldMethodName(int opcode,FieldType value)</p><p>Instance field </p><p>FieldType fieldMethodName(ContainerClass obj,</p><p>int opcode,FieldType value)</p><p>With the mission of get/set the value of the field; if opcode is:</p><p>NativeFieldMethod.GET, or 0: the method returns the current value of the field, the value parameter is ignored.</p><p>NativeFieldMethod.SET, or 1: the field is updated with the value parameter, and returns the new field value.</p><p>NativeFieldMethod.GET_SET, or 2: the field is updated with the value parameter, and returns the previous field value to the updating.</p><p>The framework can offer this way to access a native Java field or a C/C++ field directly.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id352908"></a>Native (capable) object method</h4></div></div></div><p>A native (capable) object method is a native (capable) utility object working as a proxy of a Java native capable method or a field seen as a method (native callback) or a DLL exported method or field (native proxy).</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id352916"></a>Native callback</h4></div></div></div><p>A native callback is a native object method working as a proxy of a Java native capable method or a field seen as a method. This object makes accessible the Java native capable method (or field) from native, redirects a native call to the wrapped Java method using reflection or a direct call.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id352924"></a>Native proxy of a DLL exported method (or field)</h4></div></div></div><p>A native proxy of a DLL method is a native object method that makes the DLL method callable from Java, converting the Java call to a native call. Usually a Java native capable method can be used as an external and transparent front end using in its implementation the native proxy to call the DLL. In the field case a special method is used to read/write the DLL exported field, the field is seen as a method.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id352946"></a>Framework managed code</h4></div></div></div><p>A code zone is &#8220;managed&#8221; if it was bytecode enhanced by the framework. Managed code zones are the body of instance methods of user defined native capable classes. In these methods accessing (read/modification) to native declared fields is intercepted by the framework ensuring the native memory is read to get the current &#8220;real&#8221; value of the field or modified to synchronize the native memory with a new field value. In managed code the native memory manipulation is made indirectly and transparent to the user. Managed methods are not necessarily native (capable) methods.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id352964"></a>Enhancement time</h4></div></div></div><p>User defined classes must be enhanced to be converted in native capable classes. Enhancement can be done on filesystem or on runtime (on class loading). If the enhancement is done on filesystem (usually using the NativeEnhancerCmd class in the command line or Ant task), this task does not use the native memory and/or load dynamic link libraries. Running this task may be called &#8220;enhancement time&#8221;.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id352985"></a>Generation code time</h4></div></div></div><p>JNIEasy has a special tool (usually using the NativeCodeGeneratorCmd class in the command line or Ant task) to generate the code of Java classes working as a proxy of DLL exported methods, usually C methods. The generated code is used to call from Java DLL methods bound on demand (the first time was used); these classes are especially useful to map DLLs with tons of exported methods. This task does not use native memory but may use the enhancer (on-load mode). Running this task may be called &#8220;generation code time&#8221;.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id352993"></a>Runtime</h4></div></div></div><p>When performing any task involving creation or use of native memory (using native instances) and/or loading DLLs. The most important interface to these tasks is NativeManager.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id353003"></a>Native transaction</h4></div></div></div><p>A native transaction is conceptuality very similar to a database transaction, or a Java EE or JDO transaction but with the native memory seen as a &#8220;repository&#8221;. During a native transaction the state of the native memory is saved before any modification and is restored to the original values if the transaction is aborted (rollback).</p></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id354540"></a>Framework modules</h3></div></div></div><p>The framework is fully included in the Java package: com.innowhere.jnieasy.core</p><p>This package is divided in several sub packages; these packages are coincident with the main tasks/parts of JNIEasy: enhancer, code generator, native type declaration, native interfaces, factories, native memory management, transaction management and listeners.</p><p>The framework starts with the abstract class JNIEasy. The static get() method returns a singleton object of this class; using this singleton we can obtain most of the utility classes/interfaces. </p><p>JNIEasy jnieasy = JNIEasy.get();</p><p>JNIEasy&#8217;s public API is based mainly on interfaces; using interfaces helps to keep the API clean (no undocumented and disturbing methods and fields) and robust to internal changes and evolutions, but the reader must keep in mind that most of lower interfaces have a unique implementation class into the framework, for instance, only one class implements NativeInteger interface, using the NativeInteger data type is not different to use the related internal class. </p><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id354569"></a>Enhancer</h4></div></div></div><p>The enhancer utilities are localized in the package: com.innowhere.jnieasy.core.enh</p><p>Provides utility classes/interfaces related to bytecode enhancement tasks of native capable classes.</p><p>The main interface is NativeEnhancer, this interface is implemented by a singleton object that can be obtained with the JNIEasy.getEnhancer() method. For instance: </p><p>NativeEnhancer enh = JNIEasy.get().getEnhancer();</p><p>With the enhancer object we can enhance the classes (.class files) described with special XML files, and enable/disable the &#8220;on load enhancement&#8221; feature.</p><p>The enhancement task may be launch directly on command line using the executable class NativeEnhancerCmd.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id505136"></a>Code generator </h4></div></div></div><p>The code generation utilities are located in the package: </p><p>com.innowhere.jnieasy.core.cgen</p><p>Provides utility classes/interfaces used to generate the code of Java classes working as proxies of exported methods (usually C methods) of big DLLs. </p><p>The main interface is NativeCodeGenerator, this interface is implemented by a singleton object that can be obtained with the JNIEasy.getCodeGenerator() method. For instance: </p><p>NativeCodeGenerator codeGen = JNIEasy.get().getCodeGenerator();</p><p>With the code generator object we can generate the Java code of the user defined classes specified in special XML files.</p><p>The code generation task may be launch directly on command line using the executable class NativeCodeGeneratorCmd.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id505175"></a>Native type declaration</h4></div></div></div><p>The package: com.innowhere.jnieasy.core.typedec contains:</p><div class="orderedlist"><ol type="1"><li><p>The native type declaration utility: the interface NativeTypeManager implemented by a singleton object that can be obtained with the JNIEasy.getTypeManager() method. For instance:</p></li></ol></div><p>NativeTypeManager typeMgr = JNIEasy.get().getTypeManager();</p><div class="orderedlist"><ol type="1"><li><p>Native type interfaces representing native type declarations: all of them inherit from TypeNative.</p></li><li><p>The variable native type declaration utility: the interface NativeVarTypeManager implemented by a singleton object that can be obtained with the JNIEasy.getVarTypeManager() method. For instance:</p></li></ol></div><p>NativeVarTypeManager varTypeMgr = JNIEasy.get().getVarTypeManager();</p><div class="orderedlist"><ol type="1"><li><p>The variable native type interface VarTypeNative representing variable native type declarations.</p></li><li><p>The native method signature declaration utility: the interface NativeSignatureManager implemented by a singleton object that can be obtained with the JNIEasy.getSignatureManager() method. For instance:</p></li></ol></div><p>NativeSignatureManager sigMgr = JNIEasy.get().getSignatureManager();</p><div class="orderedlist"><ol type="1"><li><p>Interfaces of native method signatures: all of them inherit from NativeBehaviorSignature.</p></li></ol></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id505285"></a>Native interfaces</h4></div></div></div><p>The native interfaces are divided in two packages: </p><div class="orderedlist"><ol type="1"><li><p>Package com.innowhere.jnieasy.core.data </p></li></ol></div><p>Contains all native interfaces implemented by predefined native capable classes starting on NativeCapable, with the exception of interfaces related to native methods. </p><div class="orderedlist"><ol type="1"><li><p>Package com.innowhere.jnieasy.core.method </p></li></ol></div><p>Contains native interfaces related to native methods. </p><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id505338"></a>Table of data native interfaces with predefined classes</h5></div></div></div><div class="informaltable"><table border="1"><colgroup><col><col><col><col><col><col><col></colgroup><tbody><tr><td>
+<p>Name</p>
+</td><td>
+<p>Java class(es) matched<sup>[<a name="id505374" href="#ftn.id505374">a</a>]</sup>
+</p>
+</td><td>
+<p>Contained element(s)</p>
+</td><td>
+<p>User defined classes</p>
+</td><td>
+<p>Matched native type of a reference</p>
+</td><td>
+<p>Object size<sup>[<a name="id505436" href="#ftn.id505436">b</a>]</sup>
+</p>
+</td><td>
+<p>Notes</p>
+</td></tr><tr><td>
+<p>CPPClass</p>
+</td><td>
+<p>Itself and user defined classes as C++ classes</p>
+</td><td>
+<p>Multiple fields and methods</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>CPPClass* if &#8220;by pointer&#8221;, CPPClass if &#8220;by value&#8221;</p>
+</td><td>
+<p>Depends on declaration</p>
+</td><td>
+<p>The predefined class has not native fields/methods (unknown) </p>
+</td></tr><tr><td>
+<p>NativeArrayOfArray</p>
+</td><td>
+<p>A multiple dimensional array and user defined classes as multidimensional arrays</p>
+</td><td>
+<p>A multiple dimensional array</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>Depends on declaration</p>
+</td><td>
+<p>Depends on declaration</p>
+</td><td>
+<p>The predefined class contains an Object[] field</p>
+</td></tr><tr><td>
+<p>NativeBoolean</p>
+</td><td>
+<p>boolean</p>
+</td><td>
+<p>boolean field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jboolean*</p>
+</td><td>
+<p>1</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeBooleanArray</p>
+</td><td>
+<p>boolean[]</p>
+</td><td>
+<p>boolean[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jboolean*, jboolean x[n]</p>
+</td><td>
+<p>1* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeBooleanObject</p>
+</td><td>
+<p>Boolean</p>
+</td><td>
+<p>Boolean field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jboolean*</p>
+</td><td>
+<p>1</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeBooleanObjectArray</p>
+</td><td>
+<p>Boolean[]</p>
+</td><td>
+<p>Boolean[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jboolean**, jboolean* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeByte</p>
+</td><td>
+<p>byte</p>
+</td><td>
+<p>byte field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jbyte*</p>
+</td><td>
+<p>1</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeByteArray</p>
+</td><td>
+<p>byte[]</p>
+</td><td>
+<p>byte[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jbyte*, jbyte x[n]</p>
+</td><td>
+<p>1* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeByteObject</p>
+</td><td>
+<p>Byte</p>
+</td><td>
+<p>Byte field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jbyte*</p>
+</td><td>
+<p>1</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeByteObjectArray</p>
+</td><td>
+<p>Byte[]</p>
+</td><td>
+<p>Byte[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jbyte**, jbyte* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeCapable</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>None</p>
+</td><td>
+<p>yes (but using inherited interf.)</p>
+</td><td>
+<p>NativeType* if &#8220;by pointer&#8221; (&#8220;by value&#8221;not allowed)</p>
+</td><td>
+<p>Unknown</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeCapableArray</p>
+</td><td>
+<p>NativeCapable[] classes and inherited and user defined classes as native capable arrays</p>
+</td><td>
+<p>An inherited Object[] field</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>ElementType** or ElementType* x[n] if &#8220;by pointer&#8221;,</p>
+<p>ElementType* or ElementType x[n] if &#8220;by value&#8221;</p>
+</td><td>
+<p>platf.size* length if &#8220;by pointer&#8221; or elem.size* length if &#8220;by value&#8221;</p>
+</td><td>
+<p>The predefined class contains an Object[] field</p>
+</td></tr><tr><td>
+<p>NativeCharacter</p>
+</td><td>
+<p>char</p>
+</td><td>
+<p>char field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jchar*</p>
+</td><td>
+<p>2</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeCharacterArray</p>
+</td><td>
+<p>char[]</p>
+</td><td>
+<p>char[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jchar*, jchar x[n]</p>
+</td><td>
+<p>2* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeCharacterObject</p>
+</td><td>
+<p>Character</p>
+</td><td>
+<p>Character field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jchar*</p>
+</td><td>
+<p>2</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeCharacterObjectArray</p>
+</td><td>
+<p>Character[]</p>
+</td><td>
+<p>Character[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jchar**, jchar* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeDouble</p>
+</td><td>
+<p>double</p>
+</td><td>
+<p>double field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jdouble*</p>
+</td><td>
+<p>8</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeDoubleArray</p>
+</td><td>
+<p>double[]</p>
+</td><td>
+<p>double[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jdouble*, jdouble x[n]</p>
+</td><td>
+<p>8* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeDoubleObject</p>
+</td><td>
+<p>Double</p>
+</td><td>
+<p>Double field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jdouble*</p>
+</td><td>
+<p>8</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeDoubleObjectArray</p>
+</td><td>
+<p>Double[]</p>
+</td><td>
+<p>Double[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jdouble**, jdouble* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeFloat</p>
+</td><td>
+<p>float</p>
+</td><td>
+<p>float field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jfloat*</p>
+</td><td>
+<p>4</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeFloatArray</p>
+</td><td>
+<p>float[]</p>
+</td><td>
+<p>float[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jfloat*, jfloat x[n]</p>
+</td><td>
+<p>4* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeFloatObject</p>
+</td><td>
+<p>Float</p>
+</td><td>
+<p>Float field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jfloat*</p>
+</td><td>
+<p>4</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeFloatObjectArray</p>
+</td><td>
+<p>Float[]</p>
+</td><td>
+<p>Float[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jfloat**, jfloat* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeInteger</p>
+</td><td>
+<p>int</p>
+</td><td>
+<p>int field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jint*</p>
+</td><td>
+<p>4</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeIntegerArray</p>
+</td><td>
+<p>int[]</p>
+</td><td>
+<p>int[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jint*, jint x[n]</p>
+</td><td>
+<p>4* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeIntegerObject</p>
+</td><td>
+<p>Integer</p>
+</td><td>
+<p>Integer field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jint*</p>
+</td><td>
+<p>4</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeIntegerObjectArray</p>
+</td><td>
+<p>Integer[]</p>
+</td><td>
+<p>Integer[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jint**, jint* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeLong</p>
+</td><td>
+<p>long</p>
+</td><td>
+<p>long field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jlong*</p>
+</td><td>
+<p>8 </p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeLongArray</p>
+</td><td>
+<p>long[]</p>
+</td><td>
+<p>long[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jlong*, jlong x[n] </p>
+</td><td>
+<p>8* length </p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeLongObject</p>
+</td><td>
+<p>Long</p>
+</td><td>
+<p>Long field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jlong*</p>
+</td><td>
+<p>8</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeLongObjectArray</p>
+</td><td>
+<p>Long[]</p>
+</td><td>
+<p>Long[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jlong**, jlong* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeObjectArray</p>
+</td><td>
+<p>Object[] and inherited</p>
+</td><td>
+<p>An inherited Object[] field</p>
+</td><td>
+<p>yes (but using inherited interf.)</p>
+</td><td>
+<p>ElementType** or ElementType* x[n] if &#8220;by pointer&#8221;,</p>
+<p>ElementType* or ElementType x[n] if &#8220;by value&#8221;</p>
+</td><td>
+<p>platf.size* length if &#8220;by pointer&#8221; or elem.size* length if &#8220;by value&#8221;</p>
+</td><td>
+<p>The predefined class contains an Object[] field. User defined classes contains an object inherited array field</p>
+</td></tr><tr><td>
+<p>NativePointer</p>
+</td><td>
+<p>Itself and user defined classes as Pointer </p>
+</td><td>
+<p>An inherited Object field</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>ElementType**</p>
+</td><td>
+<p>platf.size</p>
+</td><td>
+<p>The predefined class contains an Object field</p>
+</td></tr><tr><td>
+<p>NativeString</p>
+</td><td>
+<p>String</p>
+</td><td>
+<p>String field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char* or wchar_t*</p>
+</td><td>
+<p>char size* length</p>
+</td><td>
+<p>Depends on encoding</p>
+</td></tr><tr><td>
+<p>NativeStringBuffer</p>
+</td><td>
+<p>StringBuffer</p>
+</td><td>
+<p>StringBuffer field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char* or wchar_t*</p>
+</td><td>
+<p>char size* length</p>
+</td><td>
+<p>Depends on encoding</p>
+</td></tr><tr><td>
+<p>NativeShort</p>
+</td><td>
+<p>short</p>
+</td><td>
+<p>short field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jshort*</p>
+</td><td>
+<p>2</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeShortArray</p>
+</td><td>
+<p>short[]</p>
+</td><td>
+<p>short[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jshort*, jshort x[n]</p>
+</td><td>
+<p>2* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeShortObject</p>
+</td><td>
+<p>Short</p>
+</td><td>
+<p>Short field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jshort*</p>
+</td><td>
+<p>2</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeShortObjectArray</p>
+</td><td>
+<p>Short[]</p>
+</td><td>
+<p>Short[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>jshort**, jshort* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringAnsi</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>String field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char*</p>
+</td><td>
+<p>1*length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringAnsiArray</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>String[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char**, char* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringArray</p>
+</td><td>
+<p>String[]</p>
+</td><td>
+<p>String[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char** and char* x[n] or wchar_t**, wchar_t* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p>Depends on encoding</p>
+</td></tr><tr><td>
+<p>NativeStringBufferAnsi</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>StringBuffer field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char*</p>
+</td><td>
+<p>1*length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringBufferAnsiArray</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>StringBuffer[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char**, char* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringBufferArray</p>
+</td><td>
+<p>StringBuffer[]</p>
+</td><td>
+<p>StringBuffer[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>char** and char* x[n] or wchar_t**, wchar_t* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p>Depends on encoding</p>
+</td></tr><tr><td>
+<p>NativeStringBufferUnicode</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>StringBuffer field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>wchar_t*</p>
+</td><td>
+<p>2*length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringBufferUnicodeArray</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>StringBuffer[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>wchar_t**, wchar_t* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringUnicode</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>String field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>wchar_t*</p>
+</td><td>
+<p>2*length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStringUnicodeArray</p>
+</td><td>
+<p>Itself</p>
+</td><td>
+<p>String[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>wchar_t**, wchar_t* x[n]</p>
+</td><td>
+<p>platf.size* length</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>Structure</p>
+</td><td>
+<p>Itself and user defined classes as structures </p>
+</td><td>
+<p>Multiple fields and methods</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>Structure* if &#8220;by pointer&#8221;, Structure if &#8220;by value&#8221;</p>
+</td><td>
+<p>Depends on declaration</p>
+</td><td>
+<p>The predefined class has not native fields/methods (unknown) </p>
+</td></tr><tr><td>
+<p>Union</p>
+</td><td>
+<p>Itself and user defined classes as unions</p>
+</td><td>
+<p>Multiple fields and methods</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>Union* if &#8220;by pointer&#8221;, Union if &#8220;by value&#8221;</p>
+</td><td>
+<p>Depends on declaration</p>
+</td><td>
+<p>The predefined class has not native fields/methods (unknown)</p>
+</td></tr></tbody><tbody class="footnotes"><tr><td colspan="7"><div class="footnote"><p><sup>[<a name="ftn.id505374" href="#id505374">a</a>] </sup>This class may be used to create a native capable object implementing the interface. Examples:</p><p>NativeTypeManager typeMgr = JNIEasy.get().getTypeManager();</p><p>TypeCanBeNativeCapable typeStr = (TypeCanBeNativeCapable)typeMgr.dec(String.class); </p><p>NativeString strObj = (NativeString)typeStr.wrapValue("any string");</p><p>TypeNativeObject typeInt = (TypeNativeObject)typeMgr.dec(NativeInteger.class); </p><p>NativeInteger objInt = (NativeInteger)typeInt.newValue();</p></div><div class="footnote"><p><sup>[<a name="ftn.id505436" href="#id505436">b</a>] </sup>Sizes are calculated with the default values, they can be changed, example: the Java long data type can be reflected as a 4 bytes integer (a C int), sizes of related data types like NativeLong, NativeLongObject, NativeLongArray etc can be affected.</p></div></td></tr></tbody></table></div></div><div class="sect4" lang="en"><div class="titlepage"><div><div><h5 class="title"><a name="id517720"></a>Table of method native interfaces with predefined classes</h5></div></div></div><div class="informaltable"><table border="1"><colgroup><col><col><col><col><col><col></colgroup><tbody><tr><td>
+<p>Name</p>
+</td><td>
+<p>Java class/method matched</p>
+</td><td>
+<p>Contained element(s)</p>
+</td><td>
+<p>User defined classes</p>
+</td><td>
+<p>Matched native type of a reference</p>
+</td><td>
+<p>Notes</p>
+</td></tr><tr><td>
+<p>CFieldMethod</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a field-method (no instance param.)</p>
+</td><td>
+<p>Used to map a static field exported in a DLL</p>
+</td></tr><tr><td>
+<p>CMethod</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a method (no instance param.)</p>
+</td><td>
+<p>Used to map a static method exported in a DLL</p>
+</td></tr><tr><td>
+<p>CPPConstructor</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a C method working as a constructor</p>
+</td><td>
+<p>Used to map a C method working as a constructor exported in a DLL</p>
+</td></tr><tr><td>
+<p>CPPMethod</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a method (first param. is the instance)</p>
+</td><td>
+<p>Used to map a instance method exported in a DLL</p>
+</td></tr><tr><td>
+<p>NativeConstructor</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes (but using inherited interf.)</p>
+</td><td>
+<p>A pointer to a C method working as a constructor</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeConstructorReflection</p>
+</td><td>
+<p>Constructor</p>
+</td><td>
+<p>Constructor field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a C method working as a constructor</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeConstructorReflectionArray</p>
+</td><td>
+<p>Constructor[]</p>
+</td><td>
+<p>Constructor[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>ConstrucPtr* or ConstrucPtr x[n]</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeDirectConstructorCallback</p>
+</td><td>
+<p>The mapped constructor</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>A pointer to a C method working as a constructor</p>
+</td><td>
+<p>The Java class is generated on the fly if necessary</p>
+</td></tr><tr><td>
+<p>NativeDirectInstanceFieldCallback</p>
+</td><td>
+<p>The mapped instance field</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>A pointer to a field-method (first param. is the instance)</p>
+</td><td>
+<p>The Java class is generated on the fly if necessary</p>
+</td></tr><tr><td>
+<p>NativeDirectInstanceMethodCallback</p>
+</td><td>
+<p>The mapped instance method</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>A pointer to a method (first param. is the instance)</p>
+</td><td>
+<p>The Java class is generated on the fly if necessary</p>
+</td></tr><tr><td>
+<p>NativeDirectStaticFieldCallback</p>
+</td><td>
+<p>The mapped static field</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>A pointer to a field-method (no instance param.)</p>
+</td><td>
+<p>The Java class is generated on the fly if necessary</p>
+</td></tr><tr><td>
+<p>NativeDirecStaticMethodCallback</p>
+</td><td>
+<p>The mapped static method</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes</p>
+</td><td>
+<p>A pointer to a method (no instance param.)</p>
+</td><td>
+<p>The Java class is generated on the fly if necessary</p>
+</td></tr><tr><td>
+<p>NativeFieldMethodReflection</p>
+</td><td>
+<p>Field</p>
+</td><td>
+<p>Field field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a field-method</p>
+</td><td>
+<p>The field may be static or instance. If static the object can be cast to NativeStaticFieldMethodReflection, else to NativeInstanceFieldMethodReflection</p>
+</td></tr><tr><td>
+<p>NativeFieldMethodReflectionArray</p>
+</td><td>
+<p>Field[]</p>
+</td><td>
+<p>Field[] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>MethodPtr* or MethodPtr x[n]</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeInstanceFieldMethod</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes (but using inherited interf.)</p>
+</td><td>
+<p>A pointer to a field-method (first param. is the instance)</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeInstanceFieldMethodReflection</p>
+</td><td>
+<p>Field</p>
+</td><td>
+<p>Field field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a field-method (first param. is the instance)</p>
+</td><td>
+<p>The reflection field object must be non-static.</p>
+</td></tr><tr><td>
+<p>NativeInstanceMethod</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes (but using inherited interf.)</p>
+</td><td>
+<p>A pointer to a method (first param. is the instance)</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeInstanceMethodReflection</p>
+</td><td>
+<p>Method</p>
+</td><td>
+<p>Method field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a method (first param. is the instance)</p>
+</td><td>
+<p>The reflection method object must be non-static</p>
+</td></tr><tr><td>
+<p>NativeMethodReflection</p>
+</td><td>
+<p>Method</p>
+</td><td>
+<p>Method field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a method </p>
+</td><td>
+<p>The method may be static or instance. If static the object can be cast to NativeStaticMethodReflection, else to NativeInstanceMethodReflection</p>
+</td></tr><tr><td>
+<p>NativeMethodReflectionArray</p>
+</td><td>
+<p>Method []</p>
+</td><td>
+<p>Method [] field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>MethodPtr* or MethodPtr x[n]</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStaticFieldMethod</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes (but using inherited interf.)</p>
+</td><td>
+<p>A pointer to a field-method (no instance param.)</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStaticFieldMethodReflection</p>
+</td><td>
+<p>Field</p>
+</td><td>
+<p>Field field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a field-method (no instance param.)</p>
+</td><td>
+<p>The reflection field object must be static.</p>
+</td></tr><tr><td>
+<p>NativeStaticMethod</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>none</p>
+</td><td>
+<p>yes (but using inherited interf.)</p>
+</td><td>
+<p>A pointer to a method (no instance param.)</p>
+</td><td>
+<p></p>
+</td></tr><tr><td>
+<p>NativeStaticMethodReflection</p>
+</td><td>
+<p>Method</p>
+</td><td>
+<p>Method field</p>
+</td><td>
+<p>no</p>
+</td><td>
+<p>A pointer to a method (no instance param.)</p>
+</td><td>
+<p>The reflection method object must be static</p>
+</td></tr></tbody></table></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id518973"></a>Utilities</h4></div></div></div><p>The package: com.innowhere.jnieasy.core.util contains a utility interface, NativeCapableFactory, used as shortcut to create native capable objects of predefined native capable classes, wrapping other native capable or "can be native" objects. Implemented by a singleton object that can be obtained with the JNIEasy.getNativeCapableFactory() method. For instance:</p><p>NativeCapableFactory objFactory = JNIEasy.get().getNativeCapableFactory();</p><p>Furthermore it contains two utility classes: NativeCapableUtil with tasks related to native capable objects and NativePrimitiveUtil to primitive values.</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id518998"></a>Native memory management</h4></div></div></div><p>The native memory management tools are located in the package: </p><p>com.innowhere.jnieasy.core.mem</p><p>The main tool is the interface NativeManager, used to manage the native lifecycle of native capable objects and other native memory tasks. Is implemented by a singleton object that can be obtained with the JNIEasy.getNativeManager() method. For instance:</p><p>NativeManager natMgr = JNIEasy.get().getNativeManager();</p><p>Another important tool is the DLLManager interface, used to manage DLLs (load/find). Each DLL/shared object is represented with an object implementing the interface DynamicLibrary; using this interface, DLL exported methods and fields can be mapped with native proxy methods. The dynamic library of the framework (JNIEasy.dll on Windows, libJNIEasy.so on Linux and Solaris, libJNIEasy.jnilib on Mac OS X) is a special case, it is mapped with the JNIEasyLibrary interface. The DLLManager is obtained with the JNIEasy.getDLLManager() method:</p><p>DLLManager dllMgr = JNIEasy.get().getDLLManager();</p><p>And the JNIEasyLibrary singleton is obtained with:</p><p>JNIEasyLibrary fwDll = JNIEasy.get().getJNIEasyLib();</p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id519051"></a>Transaction management</h4></div></div></div><p>The native transaction tools are located in the package: </p><p>com.innowhere.jnieasy.core.txn</p><p>The main interface is NativeTransaction, used to begin and end (commit or rollback) a native transaction. The NativeTransaction interface is implemented by thread dependent instances, only one transaction may be alive per thread, and the current thread&#8217;s transaction is returned with the method NativeManager.currentTransaction(). </p></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="id519080"></a>Listeners</h4></div></div></div><p>The package com.innowhere.jnieasy.core.listener provides interfaces and classes used to register callbacks and event listeners of the life cycle of native instances.</p><p>There are two types of listeners: </p><div class="orderedlist"><ol type="1"><li><p>Interfaces implemented by native capable classes: the native instance changing its native state receives the matched event. These are the EventTypeCallback interfaces.</p></li><li><p>Interfaces implemented by normal Java classes working as listeners: instances of these classes are registered as listeners. These are the InstanceLifecycleListener based interfaces.</p></li></ol></div></div></div><div class="footnotes"><br><hr width="100" align="left"><div class="footnote"><p><sup>[<a name="ftn.id354045" href="#id354045">1</a>] </sup>To simplify the DLL, Dynamic Link Library, acronym will be used to identify a Linux based shared object too.</p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s03.html">Prev</a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s05.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">considerations </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Declaration and creation of native capable objects</td></tr></table></div></body></html>

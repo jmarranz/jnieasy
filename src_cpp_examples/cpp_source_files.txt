@@ -1,0 +1,1 @@
+../../src_cpp_examples/main.cpp ../../src_cpp_examples/Dimension.c ../../src_cpp_examples/MyCPPClassOnDLL.cpp ../../src_cpp_examples/MyCPPClassOnJava.cpp ../../src_cpp_examples/MyLegacyClassOnDLL.cpp ../../include/JNIEasyHelper.cpp ../../include/JNIEasy.c 

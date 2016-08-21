@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jniEasyJavaCodeGen version="1.1"
+    xmlns="http://www.innowhere.com/jnieasy/jgen"   
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.innowhere.com/jnieasy/jgen 
+        ../../../../schemas/JNIEasy.jgen.xsd">
+
+    <fileGen name="Libc">
+        <package name="examples.win32exam.libc" >
+            <imports />
+            <class name="Libc" libraryPath="WINDOWS:MSVCRT;Linux:/lib/libc.so.6;MacOSX:/usr/lib/libc.dylib;SunOS:/lib/libc.so.1">
+                
+                <!--    
+                int printf(const char* format [ , argument , ...] ); 
+                -->
+                <method name="printf" methodType="C" callConv="c_call" >
+                    <return class="int" />
+                    <params>                
+                        <param class="String" name="pattern" />
+                        <param class="Object[]" varargs="true" name="args" />                
+                    </params>
+                </method>
+                
+            </class>
+        </package>
+    </fileGen>
+
+</jniEasyJavaCodeGen>
